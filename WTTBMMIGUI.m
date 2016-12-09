@@ -100,7 +100,7 @@ histogram(Data(:,:,2));
 Datamaxcol = max(Data);
 Datamaxrow = max(Datamaxcol);
 Datamaxrowgrn = Datamaxrow(1,2);
-xlabel('Pixel Values');
+xlabel('Pixel Values for Green Channel');
 title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
  
