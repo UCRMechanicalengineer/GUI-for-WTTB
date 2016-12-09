@@ -161,6 +161,7 @@ function pbOrangeLinear_Callback(hObject, eventdata, handles)
 % May need to change specific location of library
 NET.addAssembly('C:\Program Files\Thorlabs\Scientific Imaging\DCx Camera Support\Develop\DotNet\uc480DotNet.dll');
 % Create camera object handle
+%Change for Git
 cam = uc480.Camera;
 % Open the 1st available camera
 cam.Init(0);
