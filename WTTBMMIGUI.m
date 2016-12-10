@@ -110,7 +110,17 @@ function pbOrangeLinear_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture;
+end
+AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
+%subtract noise
+handles.FinalPictureOrangeLinear = AverageData;
+
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in pbGreenLinear.
 function pbGreenLinear_Callback(hObject, eventdata, handles)
@@ -118,6 +128,17 @@ function pbGreenLinear_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture;
+end
+AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+
+%subtract noise
+handles.FinalPictureGreenLinear = AverageData;
+
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in pbBlueLinear.
 function pbBlueLinear_Callback(hObject, eventdata, handles)
@@ -125,6 +146,17 @@ function pbBlueLinear_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture;
+end
+AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+
+%subtract noise
+handles.FinalPictureBlueLinear = AverageData;
+
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in pbBlueCircular.
 function pbBlueCircular_Callback(hObject, eventdata, handles)
@@ -132,9 +164,22 @@ function pbBlueCircular_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture;
+end
+AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+
+%subtract noise
+handles.FinalPictureBlueCircular = AverageData;
+
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in pbStokesVector.
 function pbStokesVector_Callback(hObject, eventdata, handles)
 % hObject    handle to pbStokesVector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
