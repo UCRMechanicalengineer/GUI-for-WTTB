@@ -103,6 +103,11 @@ Datamaxrowgrn = Datamaxrow(1,2);
 xlabel('Pixel Values for Green Channel');
 title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
+%Tell user that the picture is saturated
+if Datamaxrowgrn == 255 
+   warndlg('Picture is satruated reduce saturation')
+end
+
  
 % --- Executes on button press in pbOrangeLinear.
 function pbOrangeLinear_Callback(hObject, eventdata, handles)
