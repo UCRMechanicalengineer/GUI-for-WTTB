@@ -69,6 +69,7 @@ function varargout = WTTBMMIGUI_OutputFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
@@ -121,8 +122,15 @@ Data(:,:,:,ii) = TakePicture;
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
+
 %subtract noise
 handles.FinalPictureOrangeLinear = AverageData;
+
+%Put data in the workspace
+assignin('base','OrangeLinear', handles.FinalPictureOrangeLinear)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
 
 % Update handles structure
 guidata(hObject, handles);
@@ -142,6 +150,12 @@ AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,
 %subtract noise
 handles.FinalPictureGreenLinear = AverageData;
 
+%Put data in the workspace
+assignin('base','GreenLinear', handles.FinalPictureGreenLinear)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -160,6 +174,12 @@ AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,
 %subtract noise
 handles.FinalPictureBlueLinear = AverageData;
 
+%Put data in the workspace
+assignin('base','BlueLinear', handles.FinalPictureBlueLinear)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -177,6 +197,12 @@ AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,
 
 %subtract noise
 handles.FinalPictureBlueCircular = AverageData;
+
+%Put data in the workspace
+assignin('base','BlueCircular', handles.FinalPictureBlueCircular)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
 
 % Update handles structure
 guidata(hObject, handles);
