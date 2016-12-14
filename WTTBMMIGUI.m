@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 06-Dec-2016 07:31:10
+% Last Modified by GUIDE v2.5 13-Dec-2016 15:47:02
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,6 +55,12 @@ function WTTBMMIGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for WTTBMMIGUI
 handles.output = hObject;
 
+%get the value of the pixel clock
+handles.PixelClock = str2double(get(handles.edit2,'String')); 
+
+%Put data in the workspace
+assignin('base','PixelClockValue', handles.PixelClock)
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -81,7 +87,7 @@ function pbPreview_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and show it in axes 1
-Data = TakePicture;
+Data = TakePicture(handles.PixelClock);
 % Display Image
 imshow(Data);
 
@@ -94,7 +100,7 @@ function pbSaturation_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and add it for analysis
-Data = TakePicture;
+Data = TakePicture(handles.PixelClock);
 
 %make histogram of saturation
 histogram(Data(:,:,2));
@@ -106,7 +112,10 @@ title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
 %Tell user that the picture is saturated
 if Datamaxrowgrn == 255 
-   warndlg('Picture is satruated reduce saturation')
+   WarningString = ['Picture is satruated. To reduce the saturation set the pixel clock to a higher value.'...
+   'The pixel clock ranges from 5-40 in icrements of 1. You can only set the pixel clock once during MMI'... 
+' so try to get the max value about 200. If the max value is 200 your other pictures should allow for below 255'];
+    warndlg(WarningString)
 end
 
  
@@ -118,10 +127,9 @@ function pbOrangeLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture;
+Data(:,:,:,ii) = TakePicture(handles.PixelClock);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
-
 
 %subtract noise
 handles.FinalPictureOrangeLinear = AverageData;
@@ -131,6 +139,18 @@ assignin('base','OrangeLinear', handles.FinalPictureOrangeLinear)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(AverageData);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowOrangeLinear = Datamaxrow(1,2);
+
+if DatamaxrowOrangeLinear == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
 
 % Update handles structure
 guidata(hObject, handles);
@@ -143,7 +163,7 @@ function pbGreenLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture;
+Data(:,:,:,ii) = TakePicture(handles.PixelClock);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -156,6 +176,17 @@ assignin('base','GreenLinear', handles.FinalPictureGreenLinear)
 %Inform user camera is done working
 warndlg('Capture Finished')
 
+%Tell user that the picture is saturated
+Datamaxcol = max(AverageData);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowGreenLinear = Datamaxrow(1,2);
+
+if DatamaxrowGreenLinear == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -167,7 +198,7 @@ function pbBlueLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture;
+Data(:,:,:,ii) = TakePicture(handles.PixelClock);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -180,6 +211,18 @@ assignin('base','BlueLinear', handles.FinalPictureBlueLinear)
 %Inform user camera is done working
 warndlg('Capture Finished')
 
+%Tell user that the picture is saturated
+
+Datamaxcol = max(AverageData);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowBlueLinear = Datamaxrow(1,2);
+
+if DatamaxrowBlueLinear == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -191,7 +234,7 @@ function pbBlueCircular_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture;
+Data(:,:,:,ii) = TakePicture(handles.PixelClock);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -204,6 +247,18 @@ assignin('base','BlueCircular', handles.FinalPictureBlueCircular)
 %Inform user camera is done working
 warndlg('Capture Finished')
 
+%Tell user that the picture is saturated
+
+Datamaxcol = max(AverageData);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowBlueCircular = Datamaxrow(1,2);
+
+if DatamaxrowBlueCircular == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -214,3 +269,40 @@ function pbStokesVector_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
+
+function edit2_Callback(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit2 as text
+%        str2double(get(hObject,'String')) returns contents of edit2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in UpdatePixelClock.
+function UpdatePixelClock_Callback(hObject, eventdata, handles)
+% hObject    handle to UpdatePixelClock (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%get the value of the pixel clock
+handles.PixelClock = str2double(get(handles.edit2,'String')); 
+
+%Put data in the workspace
+assignin('base','PixelClockValue', handles.PixelClock)
+
+% Update handles structure
+guidata(hObject, handles);

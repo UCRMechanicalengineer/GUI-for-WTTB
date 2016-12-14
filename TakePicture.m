@@ -1,6 +1,6 @@
 %This function starts the thorlabs camera and takes a picture. It outputs
 %the picture as an RGB matrix.
-function [Data] = TakePicture
+function [Data] = TakePicture(framerate)
 
 % Add NET assembly
 % May need to change specific location of library
@@ -15,6 +15,8 @@ cam.Display.Mode.Set(uc480.Defines.DisplayMode.DiB);
 cam.PixelFormat.Set(uc480.Defines.ColorMode.RGBA8Packed);
 % Set trigger mode to software (single image acquisition)
 cam.Trigger.Set(uc480.Defines.TriggerMode.Software);
+%Use the user input framerate from the GUI
+cam.Timing.Framerate.Set(framerate)
 % Allocate image memory
 [~, MemId] = cam.Memory.Allocate(true);
 % Obtain image information
