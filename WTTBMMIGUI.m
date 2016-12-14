@@ -112,9 +112,9 @@ title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
 %Tell user that the picture is saturated
 if Datamaxrowgrn == 255 
-   WarningString = ['Picture is satruated. To reduce the saturation set the pixel clock to a higher value.'...
-   'The pixel clock ranges from 5-40 in icrements of 1. You can only set the pixel clock once during MMI'... 
-' so try to get the max value about 200. If the max value is 200 your other pictures should allow for below 255'];
+   WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
+   'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
+' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
     warndlg(WarningString)
 end
 
@@ -277,11 +277,11 @@ FinalPictureBlueLinear = handles.FinalPictureBlueLinear;
 FinalPictureBlueCircular = handles.FinalPictureBlueCircular;
 
 %Call function to get Polarization of laser
-handles.LaserPolarization = StokesVectorOfLaser(FinalPictureOrangeLinear,FinalPictureGreenLinear,...
+LaserPolarization = StokesVectorOfLaser(FinalPictureOrangeLinear,FinalPictureGreenLinear,...
     FinalPictureBlueLinear,FinalPictureBlueCircular);
 
 %Send the Laser Polarization to the workspace
-assignin('base','LaserPolarization', handles.LaserPolarization)
+assignin('base','LaserPolarization', LaserPolarization)
 
 %Let user know Polarization is in workspace
 warndlg('Check workspace for polarization of laser!');

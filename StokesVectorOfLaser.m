@@ -39,4 +39,4 @@ pixelsum = [OrangeLnrGrnChnlSum;GreenLnrGrnChnlSum;BlueLnrGrnChnlSum;BlueCirGrnC
 S = linsolve(matrixmult,pixelsum);
 
 %normalizing the stokes vector
-handles.LaserPolarization = S/S(1,1);
+LaserPolarization = S/S(1,1);
