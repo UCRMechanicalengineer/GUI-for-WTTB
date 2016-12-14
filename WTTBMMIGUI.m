@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 13-Dec-2016 15:47:02
+% Last Modified by GUIDE v2.5 13-Dec-2016 20:23:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,11 +55,11 @@ function WTTBMMIGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for WTTBMMIGUI
 handles.output = hObject;
 
-%get the value of the pixel clock
-handles.PixelClock = str2double(get(handles.edit2,'String')); 
+%get the value of the Exposure Time
+handles.ExposureTime = str2double(get(handles.edit2,'String')); 
 
 %Put data in the workspace
-assignin('base','PixelClockValue', handles.PixelClock)
+assignin('base','ExposureTime', handles.ExposureTime)
 
 % Update handles structure
 guidata(hObject, handles);
@@ -87,7 +87,7 @@ function pbPreview_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and show it in axes 1
-Data = TakePicture(handles.PixelClock);
+Data = TakePicture(handles.ExposureTime);
 % Display Image
 imshow(Data);
 
@@ -100,7 +100,7 @@ function pbSaturation_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and add it for analysis
-Data = TakePicture(handles.PixelClock);
+Data = TakePicture(handles.ExposureTime);
 
 %make histogram of saturation
 histogram(Data(:,:,2));
@@ -127,7 +127,7 @@ function pbOrangeLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.PixelClock);
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -163,7 +163,7 @@ function pbGreenLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.PixelClock);
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -198,7 +198,7 @@ function pbBlueLinear_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.PixelClock);
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -234,7 +234,7 @@ function pbBlueCircular_Callback(hObject, eventdata, handles)
 
 %Take 5 pictures and average to make one
 for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.PixelClock);
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
@@ -267,6 +267,27 @@ function pbStokesVector_Callback(hObject, eventdata, handles)
 % hObject    handle to pbStokesVector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+%This is to sum the polarization matrices in order to solve the inverse
+%multiplication
+
+%Get variable from GUI handles Structure
+FinalPictureOrangeLinear = handles.FinalPictureOrangeLinear;
+FinalPictureGreenLinear = handles.FinalPictureGreenLinear;
+FinalPictureBlueLinear = handles.FinalPictureBlueLinear;
+FinalPictureBlueCircular = handles.FinalPictureBlueCircular;
+
+%Call function to get Polarization of laser
+handles.LaserPolarization = StokesVectorOfLaser(FinalPictureOrangeLinear,FinalPictureGreenLinear,...
+    FinalPictureBlueLinear,FinalPictureBlueCircular);
+
+%Send the Laser Polarization to the workspace
+assignin('base','LaserPolarization', handles.LaserPolarization)
+
+%Let user know Polarization is in workspace
+warndlg('Check workspace for polarization of laser!');
+
+% Update handles structure
+guidata(hObject, handles);
 
 
 
@@ -292,17 +313,21 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in UpdatePixelClock.
-function UpdatePixelClock_Callback(hObject, eventdata, handles)
-% hObject    handle to UpdatePixelClock (see GCBO)
+% --- Executes on button press in UpdateExposureTime.
+function UpdateExposureTime_Callback(hObject, eventdata, handles)
+% hObject    handle to UpdateExposureTime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%get the value of the pixel clock
-handles.PixelClock = str2double(get(handles.edit2,'String')); 
+%get the value of the Exposure Time
+handles.ExposureTime = str2double(get(handles.edit2,'String')); 
 
 %Put data in the workspace
-assignin('base','PixelClockValue', handles.PixelClock)
+assignin('base','ExposureTime', handles.ExposureTime)
 
 % Update handles structure
 guidata(hObject, handles);
+
+
+
+
