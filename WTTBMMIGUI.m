@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 13-Dec-2016 20:23:43
+% Last Modified by GUIDE v2.5 14-Dec-2016 10:34:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -331,3 +331,147 @@ guidata(hObject, handles);
 
 
 
+
+
+% --- Executes on button press in OlcP1.
+function OlcP1_Callback(hObject, eventdata, handles)
+% hObject    handle to OlcP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of OlcP1
+
+
+% --- Executes on button press in GlcP1.
+function GlcP1_Callback(hObject, eventdata, handles)
+% hObject    handle to GlcP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of GlcP1
+
+
+% --- Executes on button press in BlcP1.
+function BlcP1_Callback(hObject, eventdata, handles)
+% hObject    handle to BlcP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BlcP1
+
+
+% --- Executes on button press in BccP1.
+function BccP1_Callback(hObject, eventdata, handles)
+% hObject    handle to BccP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BccP1
+
+
+% --- Executes on button press in OlcP2.
+function OlcP2_Callback(hObject, eventdata, handles)
+% hObject    handle to OlcP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of OlcP2
+
+
+% --- Executes on button press in GlcP2.
+function GlcP2_Callback(hObject, eventdata, handles)
+% hObject    handle to GlcP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of GlcP2
+
+
+% --- Executes on button press in BlcP2.
+function BlcP2_Callback(hObject, eventdata, handles)
+% hObject    handle to BlcP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BlcP2
+
+
+% --- Executes on button press in BccP2.
+function BccP2_Callback(hObject, eventdata, handles)
+% hObject    handle to BccP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BccP2
+
+
+% --- Executes on button press in radiobutton9.
+function radiobutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton9
+
+
+% --- Executes on button press in radiobutton10.
+function radiobutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton10
+
+
+% --- Executes on button press in radiobutton11.
+function radiobutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton11
+
+
+% --- Executes on button press in radiobutton12.
+function radiobutton12_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton12
+
+
+% --- Executes on button press in radiobutton13.
+function radiobutton13_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton13
+
+
+% --- Executes on button press in radiobutton14.
+function radiobutton14_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton14
+
+
+% --- Executes on button press in radiobutton15.
+function radiobutton15_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton15 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton15
+
+
+% --- Executes on button press in radiobutton16.
+function radiobutton16_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton16 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton16
