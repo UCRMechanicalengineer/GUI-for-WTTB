@@ -337,7 +337,7 @@ function OlCP1_Callback(hObject, eventdata, handles)
 
 %do this if the user does not select a polarization state for polarizer 2
 if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value')...
-        + get(handles.BcCP2,'Value')==0
+        + get(handles.BcCP2,'Value') == 0
     warndlg('please select a polarization state for polarizer 2 and take the picture again')
 end
 
@@ -393,8 +393,8 @@ function GlCP1_Callback(hObject, eventdata, handles)
 
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
-        get(handles.BcCP2,'Value') == 0
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value')...
+       + get(handles.BcCP2,'Value') == 0
     warndlg('please select a polarization state for polarizer 2')
 end
 
@@ -404,6 +404,41 @@ if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'
     WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
         'picture again'];
     warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlCP2,'Value')
+        handles.Cal_GlCP1_OlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_GlCP1_OlCP2', handles.Cal_GlCP1_OlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlCP2,'Value')
+        handles.Cal_GlCP1_GlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_GlCP1_GlCP2', handles.Cal_GlCP1_GlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlCP2,'Value')
+        handles.Cal_GlCP1_BlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_GlCP1_BlCP2', handles.Cal_GlCP1_BlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcCP2,'Value')
+        handles.Cal_GlCP1_BcCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_GlCP1_BcCP2', handles.Cal_GlCP1_BcCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
 end
 
 % --- Executes on button press in BlCP1.
@@ -413,8 +448,8 @@ function BlCP1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
-        get(handles.BcCP2,'Value') == 0
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value')...
+        + get(handles.BcCP2,'Value') == 0
     warndlg('please select a polarization state for polarizer 2')
 end
 
@@ -426,6 +461,40 @@ if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'
     warndlg(WarningString)
 end
 
+switch 1
+    case get(handles.OlCP2,'Value')
+        handles.Cal_BlCP1_OlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BlCP1_OlCP2', handles.Cal_BlCP1_OlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlCP2,'Value')
+        handles.Cal_BlCP1_GlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BlCP1_GlCP2', handles.Cal_BlCP1_GlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlCP2,'Value')
+        handles.Cal_BlCP1_BlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BlCP1_BlCP2', handles.Cal_BlCP1_BlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcCP2,'Value')
+        handles.Cal_BlCP1_BcCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BlCP1_BcCP2', handles.Cal_BlCP1_BcCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+end
 
 % --- Executes on button press in BcCP1.
 function BcCP1_Callback(hObject, eventdata, handles)
@@ -434,8 +503,8 @@ function BcCP1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
-        get(handles.BcCP2,'Value') == 0
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value')...
+       + get(handles.BcCP2,'Value') == 0
     warndlg('please select a polarization state for polarizer 2')
 end
 
@@ -445,6 +514,41 @@ if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'
     WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
         'picture again'];
     warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlCP2,'Value')
+        handles.Cal_BcCP1_OlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BcCP1_OlCP2', handles.Cal_BcCP1_OlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlCP2,'Value')
+        handles.Cal_BcCP1_GlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BcCP1_GlCP2', handles.Cal_BcCP1_GlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlCP2,'Value')
+        handles.Cal_BcCP1_BlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BcCP1_BlCP2', handles.Cal_BcCP1_BlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcCP2,'Value')
+        handles.Cal_BcCP1_BcCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_BcCP1_BcCP2', handles.Cal_BcCP1_BcCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
 end
 
 % --- Executes on button press in OlCP2.
