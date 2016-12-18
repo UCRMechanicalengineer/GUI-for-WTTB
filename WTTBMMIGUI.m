@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 16-Dec-2016 11:49:26
+% Last Modified by GUIDE v2.5 17-Dec-2016 17:12:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -329,68 +329,115 @@ assignin('base','ExposureTime', handles.ExposureTime)
 guidata(hObject, handles);
 
 
-% --- Executes on button press in OlCP1.
-function OlCP1_Callback(hObject, eventdata, handles)
-% hObject    handle to OlCP1 (see GCBO)
+% --- Executes on button press in GlCP1.
+function GlCP1_Callback(hObject, eventdata, handles)
+% hObject    handle to GlCP1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-if (get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'Value') == 0 &&  get(handles.BlCP2,'Value') == 0 ...
-        && get(handles.BcCP2,'Value' == 0))
-    %user did not select any radio button, then do this
-    wrndlg('Select one setting for Polarizer 2')
+%Take a picture and add it for analysis
+Data = TakePicture(handles.ExposureTime);
 
-elseif (get(handles.OlCP2,'value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value') + ...
-        + get(handles.BcCP2,'Value'))>1
-    %This is incase the user slects more than one setting for Polarizer 2
-    wrndlg('you have selected more that one setting for Polarizer 2, Only one setting may be selected at a time')
-else
-    %do this if a user selected a radio button
-    n=1
- switch n 
-      case get(handles.OlCP2,'value') 
-        Average5Pics(handles.ExposureTime)
-          %subtract noise
-handles.FinalPictureGreenLinear = AverageData;
-
-%Put data in the workspace
-assignin('base','GreenLinear', handles.FinalPictureGreenLinear)
-
-%Inform user camera is done working
-warndlg('Capture Finished')
+%make histogram of saturation
+histogram(Data(:,:,2));
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+Datamaxrowgrn = Datamaxrow(1,2);
+xlabel('Pixel Values for Green Channel');
+title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
 %Tell user that the picture is saturated
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowGreenLinear = Datamaxrow(1,2);
-
-if DatamaxrowGreenLinear == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+if Datamaxrowgrn == 255 
+   WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
+   'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
+' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
     warndlg(WarningString)
 end
 
-% Update handles structure
-guidata(hObject, handles);
-      case get(handles.GlCP2,'value')
-          
-      case get(handles.BlCP2,'value')
-          
-      case get(handles.BcCP2,'value')
-          
-  end
-% --- Executes on button press in BcCP1.
-function BcCP1_Callback(hObject, eventdata, handles)
-% hObject    handle to BcCP1 (see GCBO)
+% --- Executes on button press in OlCP1.
+function OlCP1_Callback(hObject, eventdata, handles)
+% hObject    handle to GlCP1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%do this if the user does not select a polarization state for polarizer 2
+
+if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
+        get(handles.BcCP2,'value') == 0
+    wrndlg('please select a polarization state for polarizer 2')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
+        + get(handles.BcCP2,'value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
+        'picture again'];
+    wrndlg(WarningString)
+end
+
+
+
+% --- Executes during object creation, after setting all properties.
+function GlCP1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to GlCP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+%do this if the user does not select a polarization state for polarizer 2
+
+if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
+        get(handles.BcCP2,'value') == 0
+    wrndlg('please select a polarization state for polarizer 2')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
+        + get(handles.BcCP2,'value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
+        'picture again'];
+    wrndlg(WarningString)
+end
 
 % --- Executes on button press in BlCP1.
 function BlCP1_Callback(hObject, eventdata, handles)
 % hObject    handle to BlCP1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+%do this if the user does not select a polarization state for polarizer 2
+
+if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
+        get(handles.BcCP2,'value') == 0
+    wrndlg('please select a polarization state for polarizer 2')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
+        + get(handles.BcCP2,'value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
+        'picture again'];
+    wrndlg(WarningString)
+end
+
+
+% --- Executes on button press in BcCP1.
+function BcCP1_Callback(hObject, eventdata, handles)
+% hObject    handle to BcCP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%do this if the user does not select a polarization state for polarizer 2
+
+if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
+        get(handles.BcCP2,'value') == 0
+    wrndlg('please select a polarization state for polarizer 2')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
+        + get(handles.BcCP2,'value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
+        'picture again'];
+    wrndlg(WarningString)
+end
 
 
 % --- Executes on button press in OlCP2.
@@ -427,3 +474,6 @@ function BcCP2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of BcCP2
+
+
+
