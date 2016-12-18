@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 17-Dec-2016 17:12:18
+% Last Modified by GUIDE v2.5 18-Dec-2016 13:00:51
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -329,31 +329,6 @@ assignin('base','ExposureTime', handles.ExposureTime)
 guidata(hObject, handles);
 
 
-% --- Executes on button press in GlCP1.
-function GlCP1_Callback(hObject, eventdata, handles)
-% hObject    handle to GlCP1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%Take a picture and add it for analysis
-Data = TakePicture(handles.ExposureTime);
-
-%make histogram of saturation
-histogram(Data(:,:,2));
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-Datamaxrowgrn = Datamaxrow(1,2);
-xlabel('Pixel Values for Green Channel');
-title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
-
-%Tell user that the picture is saturated
-if Datamaxrowgrn == 255 
-   WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
-   'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
-' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
-    warndlg(WarningString)
-end
-
 % --- Executes on button press in OlCP1.
 function OlCP1_Callback(hObject, eventdata, handles)
 % hObject    handle to GlCP1 (see GCBO)
@@ -361,41 +336,74 @@ function OlCP1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %do this if the user does not select a polarization state for polarizer 2
-
-if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
-        get(handles.BcCP2,'value') == 0
-    wrndlg('please select a polarization state for polarizer 2')
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value')...
+        + get(handles.BcCP2,'Value')==0
+    warndlg('please select a polarization state for polarizer 2 and take the picture again')
 end
 
 %do this if the user selects more than one state for the second polarizer
-if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
-        + get(handles.BcCP2,'value') > 1
-    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value') ...
+        + get(handles.BcCP2,'Value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the '...
         'picture again'];
-    wrndlg(WarningString)
+    warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlCP2,'Value')
+        handles.Cal_OlCP1_OlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_OlCP1_OlCP2', handles.Cal_OlCP1_OlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlCP2,'Value')
+        handles.Cal_OlCP1_GlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_OlCP1_GlCP2', handles.Cal_OlCP1_GlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlCP2,'Value')
+        handles.Cal_OlCP1_BlCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_OlCP1_BlCP2', handles.Cal_OlCP1_BlCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcCP2,'Value')
+        handles.Cal_OlCP1_BcCP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','Cal_OlCP1_BcCP2', handles.Cal_OlCP1_BcCP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
 end
 
 
-
-% --- Executes during object creation, after setting all properties.
-function GlCP1_CreateFcn(hObject, eventdata, handles)
+% --- Executes on button press in GlCP1.
+function GlCP1_Callback(hObject, eventdata, handles)
 % hObject    handle to GlCP1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+% handles    structure with handles and user data (see GUIDATA)
 
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
-        get(handles.BcCP2,'value') == 0
-    wrndlg('please select a polarization state for polarizer 2')
+if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
+        get(handles.BcCP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2')
 end
 
 %do this if the user selects more than one state for the second polarizer
-if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
-        + get(handles.BcCP2,'value') > 1
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value') ...
+        + get(handles.BcCP2,'Value') > 1
     WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
         'picture again'];
-    wrndlg(WarningString)
+    warndlg(WarningString)
 end
 
 % --- Executes on button press in BlCP1.
@@ -405,17 +413,17 @@ function BlCP1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
-        get(handles.BcCP2,'value') == 0
-    wrndlg('please select a polarization state for polarizer 2')
+if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
+        get(handles.BcCP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2')
 end
 
 %do this if the user selects more than one state for the second polarizer
-if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
-        + get(handles.BcCP2,'value') > 1
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value') ...
+        + get(handles.BcCP2,'Value') > 1
     WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
         'picture again'];
-    wrndlg(WarningString)
+    warndlg(WarningString)
 end
 
 
@@ -426,19 +434,18 @@ function BcCP1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 %do this if the user does not select a polarization state for polarizer 2
 
-if get(handles.OlCP2,'value') == 0 && get(handles.GlCP2,'value') == 0 && get(handles.BlCP2,'value') && ...
-        get(handles.BcCP2,'value') == 0
-    wrndlg('please select a polarization state for polarizer 2')
+if get(handles.OlCP2,'Value') == 0 && get(handles.GlCP2,'Value') == 0 && get(handles.BlCP2,'Value') && ...
+        get(handles.BcCP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2')
 end
 
 %do this if the user selects more than one state for the second polarizer
-if get(handles.OlCP2,'value') + get(handles.GlCP2,'value') + get(handles.BlCP2,'value') ...
-        + get(handles.BcCP2,'value') > 1
+if get(handles.OlCP2,'Value') + get(handles.GlCP2,'Value') + get(handles.BlCP2,'Value') ...
+        + get(handles.BcCP2,'Value') > 1
     WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the'...
         'picture again'];
-    wrndlg(WarningString)
+    warndlg(WarningString)
 end
-
 
 % --- Executes on button press in OlCP2.
 function OlCP2_Callback(hObject, eventdata, handles)
@@ -474,6 +481,4 @@ function BcCP2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of BcCP2
-
-
 
