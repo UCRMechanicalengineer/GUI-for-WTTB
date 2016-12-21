@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 20-Dec-2016 15:42:19
+% Last Modified by GUIDE v2.5 21-Dec-2016 12:59:52
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -241,6 +241,10 @@ AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,
 %subtract noise
 handles.FinalPictureBlueCircular = AverageData;
 
+
+% Update handles structure
+guidata(hObject, handles);
+
 %Put data in the workspace
 assignin('base','BlueCircular', handles.FinalPictureBlueCircular)
 
@@ -259,8 +263,7 @@ if DatamaxrowBlueCircular == 255
     warndlg(WarningString)
 end
 
-% Update handles structure
-guidata(hObject, handles);
+
 
 % --- Executes on button press in pbStokesVector.
 function pbStokesVector_Callback(hObject, eventdata, handles)
@@ -842,4 +845,22 @@ function BcMP2_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of BcMP2
 
+
+
+
+% --- Executes on button press in SumOfGrn.
+function SumOfGrn_Callback(hObject, eventdata, handles)
+% hObject    handle to SumOfGrn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%sum the columns
+handles.SumOfBlueCircularCol = sum(handles.FinalPictureBlueCircular);
+
+%sum the rows for one integer
+handles.SumOfBlueCircular = sum(handles.SumOfBlueCircularCol(:,:,2));
+
+
+%Put data in the workspace
+assignin('base','SumOfBlueCircular', handles.SumOfBlueCircular);
 
