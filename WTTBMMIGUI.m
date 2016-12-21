@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 18-Dec-2016 13:00:51
+% Last Modified by GUIDE v2.5 20-Dec-2016 15:42:19
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -277,7 +277,7 @@ FinalPictureBlueLinear = handles.FinalPictureBlueLinear;
 FinalPictureBlueCircular = handles.FinalPictureBlueCircular;
 
 %Call function to get Polarization of laser
-LaserPolarization = StokesVectorOfLaser(FinalPictureOrangeLinear,FinalPictureGreenLinear,...
+LaserPolarization = StokesVectorOfLaser(handles.FinalPictureOrangeLinear,FinalPictureGreenLinear,...
     FinalPictureBlueLinear,FinalPictureBlueCircular);
 
 %Send the Laser Polarization to the workspace
@@ -585,4 +585,261 @@ function BcCP2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of BcCP2
+
+
+
+% --- Executes on button press in OlMP1.
+function OlMP1_Callback(hObject, eventdata, handles)
+% hObject    handle to OlMP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%do this if the user does not select a polarization state for polarizer 2
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value')...
+        + get(handles.BcMP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2 and take the picture again')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value') ...
+        + get(handles.BcMP2,'Value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the '...
+        'picture again'];
+    warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlMP2,'Value')
+        handles.MMI_OlMP1_OlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_OlMP1_OlMP2', handles.MMI_OlMP1_OlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlMP2,'Value')
+        handles.MMI_OlMP1_GlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_OlMP1_GlMP2', handles.MMI_OlMP1_GlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlMP2,'Value')
+        handles.MMI_OlMP1_BlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_OlMP1_BlMP2', handles.MMI_OlMP1_BlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcMP2,'Value')
+        handles.MMI_OlMP1_BcMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_OlMP1_BcMP2', handles.MMI_OlMP1_BcMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+end
+
+% --- Executes on button press in GlMP1.
+function GlMP1_Callback(hObject, eventdata, handles)
+% hObject    handle to GlMP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value')...
+        + get(handles.BcMP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2 and take the picture again')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value') ...
+        + get(handles.BcMP2,'Value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the '...
+        'picture again'];
+    warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlMP2,'Value')
+        handles.MMI_GlMP1_OlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_GlMP1_OlMP2', handles.MMI_GlMP1_OlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlMP2,'Value')
+        handles.MMI_GlMP1_GlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_GlMP1_GlMP2', handles.MMI_GlMP1_GlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlMP2,'Value')
+        handles.MMI_GlMP1_BlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_GlMP1_BlMP2', handles.MMI_GlMP1_BlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcMP2,'Value')
+        handles.MMI_GlMP1_BcMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_GlMP1_BcMP2', handles.MMI_GlMP1_BcMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+end
+
+% --- Executes on button press in BlMP1.
+function BlMP1_Callback(hObject, eventdata, handles)
+% hObject    handle to BlMP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value')...
+        + get(handles.BcMP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2 and take the picture again')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value') ...
+        + get(handles.BcMP2,'Value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the '...
+        'picture again'];
+    warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlMP2,'Value')
+        handles.MMI_BlMP1_OlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BlMP1_OlMP2', handles.MMI_BlMP1_OlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlMP2,'Value')
+        handles.MMI_BlMP1_GlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BlMP1_GlMP2', handles.MMI_BlMP1_GlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlMP2,'Value')
+        handles.MMI_BlMP1_BlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BlMP1_BlMP2', handles.MMI_BlMP1_BlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcMP2,'Value')
+        handles.MMI_BlMP1_BcMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BlMP1_BcMP2', handles.MMI_BlMP1_BcMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+end
+
+
+% --- Executes on button press in BcMP1.
+function BcMP1_Callback(hObject, eventdata, handles)
+% hObject    handle to BcMP1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%do this if the user does not select a polarization state for polarizer 2
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value')...
+        + get(handles.BcMP2,'Value') == 0
+    warndlg('please select a polarization state for polarizer 2 and take the picture again')
+end
+
+%do this if the user selects more than one state for the second polarizer
+if get(handles.OlMP2,'Value') + get(handles.GlMP2,'Value') + get(handles.BlMP2,'Value') ...
+        + get(handles.BcMP2,'Value') > 1
+    WarningString = ['You have selected more than one setting for polarizer 2 please select only one setting and take the '...
+        'picture again'];
+    warndlg(WarningString)
+end
+
+switch 1
+    case get(handles.OlMP2,'Value')
+        handles.MMI_BcMP1_OlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BcMP1_OlMP2', handles.MMI_BcMP1_OlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.GlMP2,'Value')
+        handles.MMI_BcMP1_GlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BcMP1_GlMP2', handles.MMI_BcMP1_GlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BlMP2,'Value')
+        handles.MMI_BcMP1_BlMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BcMP1_BlMP2', handles.MMI_BcMP1_BlMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+    case get(handles.BcMP2,'Value')
+        handles.MMI_BcMP1_BcMP2 = Average5Pics(handles.ExposureTime);
+        %Put data in the workspace
+        assignin('base','MMI_BcMP1_BcMP2', handles.MMI_BcMP1_BcMP2);
+        % Update handles structure
+        guidata(hObject, handles);
+        %Inform user camera is done working
+        warndlg('Capture Finished')
+end
+
+
+
+% --- Executes on button press in OlMP2.
+function OlMP2_Callback(hObject, eventdata, handles)
+% hObject    handle to OlMP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of OlMP2
+
+
+% --- Executes on button press in GlMP2.
+function GlMP2_Callback(hObject, eventdata, handles)
+% hObject    handle to GlMP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of GlMP2
+
+
+% --- Executes on button press in BlMP2.
+function BlMP2_Callback(hObject, eventdata, handles)
+% hObject    handle to BlMP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BlMP2
+
+
+% --- Executes on button press in BcMP2.
+function BcMP2_Callback(hObject, eventdata, handles)
+% hObject    handle to BcMP2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of BcMP2
+
 
