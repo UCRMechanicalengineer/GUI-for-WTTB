@@ -163,9 +163,20 @@ function Lin0Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
 
-%subtract noise
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 handles.Lin0DgrPic = AverageData;
 
 
@@ -196,12 +207,24 @@ function Lin20Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Lin20DgrPic = AverageData;
@@ -234,12 +257,24 @@ function Lin40Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Lin40DgrPic = AverageData;
@@ -272,12 +307,23 @@ function Lin60Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Lin60DgrPic = AverageData;
@@ -310,12 +356,23 @@ function Lin80Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Lin80DgrPic = AverageData;
@@ -348,12 +405,23 @@ function Lin100Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Lin100DgrPic = AverageData;
@@ -386,12 +454,24 @@ function Lin120Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Lin120DgrPic = AverageData;
@@ -424,12 +504,23 @@ function Lin140Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Lin140DgrPic = AverageData;
@@ -462,12 +553,24 @@ function Lin160Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Lin160DgrPic = AverageData;
@@ -501,12 +604,23 @@ function Lin180Dgr_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 %Take 5 pictures and average to make one
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Lin180DgrPic = AverageData;
@@ -543,7 +657,20 @@ function Cir0Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Cir0DgrPic = AverageData;
@@ -581,7 +708,19 @@ function Cir20Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir20DgrPic = AverageData;
@@ -618,7 +757,19 @@ function Cir40Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir40DgrPic = AverageData;
@@ -655,7 +806,19 @@ function Cir60Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir60DgrPic = AverageData;
@@ -692,7 +855,19 @@ function Cir80Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir80DgrPic = AverageData;
@@ -729,7 +904,19 @@ function Cir100Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir100DgrPic = AverageData;
@@ -766,7 +953,19 @@ function Cir120Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir120DgrPic = AverageData;
@@ -803,7 +1002,20 @@ function Cir140Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
 
 %subtract noise
 handles.Cir140DgrPic = AverageData;
@@ -840,7 +1052,19 @@ function Cir160Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir160DgrPic = AverageData;
@@ -877,7 +1101,19 @@ function Cir180Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.Cir180DgrPic = AverageData;
@@ -964,7 +1200,19 @@ function NoPolarizer_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
 
 %subtract noise
 handles.NoPolarizerPic = AverageData;
