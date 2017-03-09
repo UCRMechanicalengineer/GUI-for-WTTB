@@ -22,7 +22,7 @@ function varargout = CharacterizationGUI(varargin)
 
 % Edit the above text to modify the response to help CharacterizationGUI
 
-% Last Modified by GUIDE v2.5 08-Mar-2017 13:32:06
+% Last Modified by GUIDE v2.5 08-Mar-2017 14:27:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -111,7 +111,7 @@ function pbPreview_Callback(hObject, eventdata, handles)
 %Take a picture and show it in axes 1
 Data = TakePicture(handles.ExposureTime);
 % Display Image
-imshow(Data);
+imshow(Data(300:700,400:900,:));
 
 % --- Executes on button press in UpdateExposureTime.
 function UpdateExposureTime_Callback(hObject, eventdata, handles)
@@ -296,9 +296,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin60Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin60Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -318,14 +318,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin80DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin80Dgr', handles.Lin80DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -334,9 +334,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin80Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin80Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -356,14 +356,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin100DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin100Dgr', handles.Lin100DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -372,9 +372,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin100Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin100Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -394,14 +394,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin120DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin120Dgr', handles.Lin120DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -410,9 +410,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin120Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin120Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -432,14 +432,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin140DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin140Dgr', handles.Lin140DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -448,9 +448,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin140Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin140Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -470,14 +470,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin160DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin160Dgr', handles.Lin160DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -486,9 +486,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin160Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin160Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -509,14 +509,14 @@ end
 AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
 
 %subtract noise
-handles.Lin0DgrPic = AverageData;
+handles.Lin180DgrPic = AverageData;
 
 
 % Update handles structure
 guidata(hObject, handles);
 
 %Put data in the workspace
-assignin('base','Lin0Dgr', handles.Lin0DgrPic)
+assignin('base','Lin180Dgr', handles.Lin180DgrPic)
 
 %Inform user camera is done working
 warndlg('Capture Finished')
@@ -525,9 +525,9 @@ warndlg('Capture Finished')
 
 Datamaxcol = max(AverageData);
 Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
+DatamaxrowLin180Dgr = Datamaxrow(1,2);
 
-if DatamaxrowLin0Dgr == 255 
+if DatamaxrowLin180Dgr == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
@@ -899,6 +899,93 @@ Datamaxrow = max(Datamaxcol);
 DatamaxrowCir180Dgr = Datamaxrow(1,2);
 
 if DatamaxrowCir180Dgr == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+
+% --- Executes on button press in Black.
+function Black_Callback(hObject, eventdata, handles)
+% hObject    handle to Black (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+SumData1 = sum(Data(300:700,400:900,2,1));
+SumData2 = sum(Data(300:700,400:900,2,2));
+SumData3 = sum(Data(300:700,400:900,2,3));
+SumData4 = sum(Data(300:700,400:900,2,4));
+SumData5 = sum(Data(300:700,400:900,2,5));
+
+AvgSumData1 = sum(SumData1);
+AvgSumData2 = sum(SumData2);
+AvgSumData3 = sum(SumData3);
+AvgSumData4 = sum(SumData4);
+AvgSumData5 = sum(SumData5);
+
+AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+
+%subtract noise
+handles.BlackPic = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','Black', handles.BlackPic)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(AverageData);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowBlack = Datamaxrow(1,2);
+
+if DatamaxrowBlack == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+% --- Executes on button press in NoPolarizer.
+function NoPolarizer_Callback(hObject, eventdata, handles)
+% hObject    handle to NoPolarizer (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%Take 5 pictures and average to make one
+for ii = 1:5
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+AverageData = (Data(:,:,:,1)+Data(:,:,:,2)+Data(:,:,:,3)+Data(:,:,:,4)+Data(:,:,:,5))/5;
+
+%subtract noise
+handles.NoPolarizerPic = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','NoPolarizer', handles.NoPolarizerPic)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowNoPolarizer = Datamaxrow(1,2);
+
+if DatamaxrowNoPolarizer == 255 
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
