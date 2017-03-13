@@ -111,7 +111,7 @@ function pbPreview_Callback(hObject, eventdata, handles)
 %Take a picture and show it in axes 1
 Data = TakePicture(handles.ExposureTime);
 % Display Image
-imshow(Data(300:700,400:900,:));
+imshow(Data(:,:,:));
 
 % --- Executes on button press in UpdateExposureTime.
 function UpdateExposureTime_Callback(hObject, eventdata, handles)
@@ -163,11 +163,11 @@ function Lin0Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -211,11 +211,11 @@ function Lin20Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -261,11 +261,11 @@ function Lin40Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -311,11 +311,11 @@ function Lin60Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -360,11 +360,11 @@ function Lin80Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -409,11 +409,11 @@ function Lin100Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -458,11 +458,11 @@ function Lin120Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -508,11 +508,11 @@ function Lin140Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -557,11 +557,11 @@ function Lin160Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -608,11 +608,11 @@ function Lin180Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -657,11 +657,11 @@ function Cir0Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -708,11 +708,11 @@ function Cir20Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -757,11 +757,11 @@ function Cir40Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -806,11 +806,11 @@ function Cir60Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -855,11 +855,11 @@ function Cir80Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -904,11 +904,11 @@ function Cir100Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -953,11 +953,11 @@ function Cir120Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -1002,11 +1002,11 @@ function Cir140Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -1052,11 +1052,11 @@ function Cir160Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -1101,11 +1101,11 @@ function Cir180Dgr_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -1151,11 +1151,11 @@ function Black_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
@@ -1200,11 +1200,11 @@ function NoPolarizer_Callback(hObject, eventdata, handles)
 for ii = 1:5
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(300:700,400:900,2,1));
-SumData2 = sum(Data(300:700,400:900,2,2));
-SumData3 = sum(Data(300:700,400:900,2,3));
-SumData4 = sum(Data(300:700,400:900,2,4));
-SumData5 = sum(Data(300:700,400:900,2,5));
+SumData1 = sum(Data(:,:,2,1));
+SumData2 = sum(Data(:,:,2,2));
+SumData3 = sum(Data(:,:,2,3));
+SumData4 = sum(Data(:,:,2,4));
+SumData5 = sum(Data(:,:,2,5));
 
 AvgSumData1 = sum(SumData1);
 AvgSumData2 = sum(SumData2);
