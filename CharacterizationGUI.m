@@ -22,7 +22,7 @@ function varargout = CharacterizationGUI(varargin)
 
 % Edit the above text to modify the response to help CharacterizationGUI
 
-% Last Modified by GUIDE v2.5 08-Mar-2017 14:27:38
+% Last Modified by GUIDE v2.5 13-Mar-2017 14:10:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -1237,4 +1237,92 @@ if DatamaxrowNoPolarizer == 255
    WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
        'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
     warndlg(WarningString)
+end
+
+
+% --- Executes on slider movement.
+function PicWidthLtoR_Callback(hObject, eventdata, handles)
+% hObject    handle to PicWidthLtoR (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function PicWidthLtoR_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to PicWidthLtoR (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function PicWidthRtoL_Callback(hObject, eventdata, handles)
+% hObject    handle to PicWidthRtoL (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function PicWidthRtoL_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to PicWidthRtoL (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function PicHieghtTtoB_Callback(hObject, eventdata, handles)
+% hObject    handle to PicHieghtTtoB (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function PicHieghtTtoB_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to PicHieghtTtoB (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function PicHieghtBtoT_Callback(hObject, eventdata, handles)
+% hObject    handle to PicHieghtBtoT (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function PicHieghtBtoT_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to PicHieghtBtoT (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
