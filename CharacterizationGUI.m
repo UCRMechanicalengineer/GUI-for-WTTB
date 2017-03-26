@@ -22,7 +22,7 @@ function varargout = CharacterizationGUI(varargin)
 
 % Edit the above text to modify the response to help CharacterizationGUI
 
-% Last Modified by GUIDE v2.5 13-Mar-2017 14:10:35
+% Last Modified by GUIDE v2.5 22-Mar-2017 12:19:06
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -145,12 +145,12 @@ xlabel('Pixel Values for Green Channel');
 title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
 %Tell user that the picture is saturated
-if Datamaxrowgrn == 255 
-   WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
-   'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
-' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
-    warndlg(WarningString)
-end
+%if Datamaxrowgrn == 255 
+   %WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
+  % 'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
+%' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
+    %warndlg(WarningString)
+%end
 
  
 % --- Executes on button press in Lin0Dgr.
@@ -1148,22 +1148,23 @@ function Black_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take 5 pictures and average to make one
-for ii = 1:5
+%jj sets # of pictures to take
+jj = 10;
+
+
+for ii = 1:jj
 Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
 end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
 
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+for ii = 1:jj
+    if ii <= 1 
+        Data1 = 0;
+    end
+    Data1 = sum(Data(:,:,2,ii)) + Data1;
+end
+
+AverageData = sum(Data1/jj);
 
 %subtract noise
 handles.BlackPic = AverageData;
@@ -1326,3 +1327,254 @@ function PicHieghtBtoT_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes on button press in CP1Cir0Dgr.
+function CP1Cir0Dgr_Callback(hObject, eventdata, handles)
+% hObject    handle to CP1Cir0Dgr (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%Take 5 pictures and average to make one
+
+%jj sets # of pictures to take
+jj = 10;
+
+
+for ii = 1:jj
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+
+
+for ii = 1:jj
+    if ii <= 1 
+        Data1 = 0;
+    end
+    Data1 = sum(Data(:,:,2,ii)) + Data1;
+end
+
+AverageData = sum(Data1/jj);
+%subtract noise
+handles.CP1Cir0Dgr = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','CP1Cir0Dgr', handles.CP1Cir0Dgr)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowCP1Cir0Dgr = Datamaxrow(1,2);
+
+if DatamaxrowCP1Cir0Dgr == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+
+% --- Executes on button press in CP1Lin0Dgr.
+function CP1Lin0Dgr_Callback(hObject, eventdata, handles)
+% hObject    handle to CP1Lin0Dgr (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%Take 5 pictures and average to make one
+%jj sets # of pictures to take
+jj = 10;
+
+
+for ii = 1:jj
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+
+
+for ii = 1:jj
+    if ii <= 1 
+        Data1 = 0;
+    end
+    Data1 = sum(Data(:,:,2,ii)) + Data1;
+end
+
+AverageData = sum(Data1/jj);
+
+%subtract noise
+handles.CP1Lin0Dgr = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','CP1Lin0Dgr', handles.CP1Lin0Dgr)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowCP1Lin0Dgr = Datamaxrow(1,2);
+
+if DatamaxrowCP1Lin0Dgr == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+
+% --- Executes on button press in CP1Lin45Dgr.
+function CP1Lin45Dgr_Callback(hObject, eventdata, handles)
+% hObject    handle to CP1Lin45Dgr (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%Take 5 pictures and average to make one
+%jj sets # of pictures to take
+jj = 10;
+
+
+for ii = 1:jj
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+
+
+for ii = 1:jj
+    if ii <= 1 
+        Data1 = 0;
+    end
+    Data1 = sum(Data(:,:,2,ii)) + Data1;
+end
+
+AverageData = sum(Data1/jj);
+
+%subtract noise
+handles.CP1Lin45Dgr = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','CP1Lin45Dgr', handles.CP1Lin45Dgr)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowCP1Lin45Dgr = Datamaxrow(1,2);
+
+if DatamaxrowCP1Lin45Dgr == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+
+% --- Executes on button press in CP1Lin90Dgr.
+function CP1Lin90Dgr_Callback(hObject, eventdata, handles)
+% hObject    handle to CP1Lin90Dgr (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%Take 5 pictures and average to make one
+%jj sets # of pictures to take
+jj = 10;
+
+
+for ii = 1:jj
+Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
+end
+
+
+for ii = 1:jj
+    if ii <= 1 
+        Data1 = 0;
+    end
+    Data1 = sum(Data(:,:,2,ii)) + Data1;
+end
+
+AverageData = sum(Data1/jj);
+
+%subtract noise
+handles.CP1Lin90Dgr = AverageData;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','CP1Lin90Dgr', handles.CP1Lin90Dgr)
+
+%Inform user camera is done working
+warndlg('Capture Finished')
+
+%Tell user that the picture is saturated
+
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+DatamaxrowCP1Lin90Dgr = Datamaxrow(1,2);
+
+if DatamaxrowCP1Lin90Dgr == 255 
+   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
+       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
+    warndlg(WarningString)
+end
+
+
+% --- Executes on button press in StokesVector.
+function StokesVector_Callback(hObject, eventdata, handles)
+% hObject    handle to StokesVector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+CP1Cir0Dgr = handles.CP1Cir0Dgr;
+CP1Lin0Dgr = handles.CP1Lin0Dgr;
+CP1Lin45Dgr = handles.CP1Lin45Dgr;
+CP1Lin90Dgr = handles.CP1Lin90Dgr;
+Black = handles.Black;
+
+ %JustGeneratorPolarization(CP1Cir0Dgr,CP1Lin0Dgr,CP1Lin45Dgr,CP1Lin90Dgr,Black)
+
+CP1Cir0DgrmBl = CP1Cir0Dgr;
+CP1Lin0DgrmBl = CP1Lin0Dgr;
+CP1Lin45DgrmBl = CP1Lin45Dgr;
+CP1Lin90DgrmBl = CP1Lin90Dgr;
+
+%Here is the total Intensity Matrix
+TotalIntensityMatrix = [CP1Cir0DgrmBl;CP1Lin0DgrmBl;CP1Lin45DgrmBl;CP1Lin90DgrmBl];
+
+%Mueller Matrix of CP1
+MMCP1Cir0Dgr = [0.392439, 0, 0.386982, 0];
+MMCP1Lin0Dgr = [0.392439, 0., -0.0140248, -0.386728];
+MMCP1Lin45Dgr = [0.392439, 0.0140248, 0., -0.386728];
+MMCP1Lin90Dgr = [0.392439, 0., 0.0140248, -0.386728];
+
+%Here is the matrix for the inverse multiplication
+CP1Matrix = [MMCP1Cir0Dgr;MMCP1Lin0Dgr;MMCP1Lin45Dgr;MMCP1Lin90Dgr];
+
+%now multiply the sum of the images by the inverse of the polarization
+%matrix
+S = linsolve(CP1Matrix,TotalIntensityMatrix);
+
+%normalizing the stokes vector
+GeneratorPolarization = S/S(1,1);
+
+%subtract noise
+handles.GeneratorPolarization = GeneratorPolarization;
+
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','GeneratorPolarization', handles.GeneratorPolarization)
+%d = GeneratorPolarization(:,1);
+%set(handles.uitableStokesVector,'data',d);
