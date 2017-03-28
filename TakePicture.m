@@ -1,6 +1,6 @@
 %This function starts the thorlabs camera and takes a picture. It outputs
 %the picture as an RGB matrix.
-function [Data] = TakePicture(ExposureTime)
+function [Data] = TakePicture(ExposureTime,Left,Right,Top,Bottom)
 
 % Add NET assembly
 % May need to change specific location of library
@@ -29,6 +29,6 @@ cam.Acquisition.Freeze(uc480.Defines.DeviceParameter.Wait);
 Data = reshape(uint8(tmp), [Bits/8, Width, Height]);
 Data = Data(1:3, 1:Width, 1:Height);
 Data = permute(Data, [3,2,1]);
-Data = Data(250:800,300:900,:);
+Data = Data(Left:Right,Top:Bottom,:);
 cam.Exit;
 

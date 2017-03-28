@@ -1249,12 +1249,7 @@ function PicWidthLtoR_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-%get the position of the Right slider
-handles.Left = get(hObject,'Value');
-assignin(base,'Left',handles.Left);
 
-% Update handles structure
-guidata(hObject, handles);
 % --- Executes during object creation, after setting all properties.
 function PicWidthLtoR_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to PicWidthLtoR (see GCBO)
@@ -1276,12 +1271,6 @@ function PicWidthRtoL_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-%get the position of the Right slider
-handles.Right = get(hObject,'Value');
-assignin(base,'Right',handles.Right);
-
-% Update handles structure
-guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function PicWidthRtoL_CreateFcn(hObject, eventdata, handles)
@@ -1304,7 +1293,7 @@ function PicHieghtTtoB_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-%get the position of the top slider
+%get the position of the bottom slider
 handles.Top = get(hObject,'Value');
 assignin(base,'Top',handles.Top);
 
