@@ -22,7 +22,7 @@ function varargout = CharacterizationGUI(varargin)
 
 % Edit the above text to modify the response to help CharacterizationGUI
 
-% Last Modified by GUIDE v2.5 22-Mar-2017 12:19:06
+% Last Modified by GUIDE v2.5 31-Mar-2017 08:34:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,10 +56,30 @@ function CharacterizationGUI_OpeningFcn(hObject, ~, handles, varargin)
 handles.output = hObject;
 
 %get the value of the Exposure Time
-handles.ExposureTime = str2double(get(handles.edit2,'String')); 
+handles.ExposureTimeSet = str2double(get(handles.ExposureTime,'String')); 
+
+%get the value of the Number of Pictures
+handles.NumberOfPicturesSet = str2double(get(handles.NumberOfPictures,'String'));
+
+%set all picture dimensions and sliders
+handles.Top = 0;
+handles.Bottom = 1024;
+handles.Left = 0;
+handles.Right = 1280;
+
+%Set the sliders for the pictures
+set(handles.PicHieghtBtoT,'Value',1024);
+set(handles.PicWidthRtoL,'Value',1280);
+
+%Set the step on the sliders
+set(handles.PicHieghtTtoB,'SliderStep', [1/1024,10/1024]);
+set(handles.PicHieghtBtoT,'SliderStep', [1/1024,10/1024]);
+set(handles.PicWidthLtoR,'SliderStep', [1/1280,10/1280]);
+set(handles.PicWidthRtoL,'SliderStep', [1/1280,10/1280]);
 
 %Put data in the workspace
-assignin('base','ExposureTime', handles.ExposureTime)
+assignin('base','ExposureTime', handles.ExposureTimeSet)
+assignin('base','NumberOfPictures',handles.NumberOfPicturesSet);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -69,11 +89,9 @@ guidata(hObject, handles);
 
 
 % --- Outputs from this function are returned to the command line.
-<<<<<<< HEAD
+
 function varargout = CharacterizationGUI_OutputFcn(~, ~, handles) 
-=======
-function varargout = CharacterizationGUI_OutputFcn(~, eventdata, handles) 
->>>>>>> aeaee779ae2c30ec99d0213ee1ccb7726d99ca75
+
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -84,18 +102,18 @@ varargout{1} = handles.output;
 
 
 
-function edit2_Callback(~, ~, ~)
-% hObject    handle to edit2 (see GCBO)
+function NumberOfPictures_Callback(~, ~, ~)
+% hObject    handle to NumberOfPictures (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit2 as text
-%        str2double(get(hObject,'String')) returns contents of edit2 as a double
+% Hints: get(hObject,'String') returns contents of NumberOfPictures as text
+%        str2double(get(hObject,'String')) returns contents of NumberOfPictures as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit2_CreateFcn(hObject, ~, ~)
-% hObject    handle to edit2 (see GCBO)
+function NumberOfPictures_CreateFcn(hObject, ~, ~)
+% hObject    handle to NumberOfPictures (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -117,72 +135,33 @@ Data = TakePicture(handles.ExposureTime);
 % Display Image
 imshow(Data(:,:,:));
 
-% --- Executes on button press in UpdateExposureTime.
-function UpdateExposureTime_Callback(hObject, ~, handles)
-% hObject    handle to UpdateExposureTime (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-%get the value of the Exposure Time
-handles.ExposureTime = str2double(get(handles.edit2,'String')); 
-
-%Put data in the workspace
-assignin('base','ExposureTime', handles.ExposureTime)
-
-% Update handles structure
-guidata(hObject, handles);
 
 % --- Executes on button press in pbSaturation.
-function pbSaturation_Callback(hObject, eventdata, handles)
+function pbSaturation_Callback(~, ~, ~)
 % hObject    handle to pbSaturation (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and add it for analysis
-Data = TakePicture(handles.ExposureTime);
+Data = TakePicture(ExposureTimeSet,Left,Right,Top,Bottom);
 
 %make histogram of saturation
-histogram(Data(:,:,2));
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-Datamaxrowgrn = Datamaxrow(1,2);
-xlabel('Pixel Values for Green Channel');
-title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
+histogram(Data);
 
-%Tell user that the picture is saturated
-%if Datamaxrowgrn == 255 
-   %WarningString = ['Picture is satruated. To reduce the saturation set the exposure time to a lower value.'...
-  % 'The exposure time ranges from 0.0624-99.8667. You can only set the Exposure Time once during MMI'... 
-%' so try to get the max green pixel value about 200. If the max value is 200 your other pictures should allow for below 255'];
-    %warndlg(WarningString)
-%end
+%warn user of picture saturation
+MMIWarning(Data);
 
- 
 % --- Executes on button press in Lin0Dgr.
-function Lin0Dgr_Callback(hObject, eventdata, handles)
+function Lin0Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin0Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
+%make variable in handles structure
 handles.Lin0DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -194,45 +173,19 @@ assignin('base','Lin0Dgr', handles.Lin0DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin0Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin0Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin20Dgr.
-function Lin20Dgr_Callback(hObject, eventdata, handles)
+function Lin20Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin20Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Lin20DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -244,45 +197,19 @@ assignin('base','Lin20Dgr', handles.Lin20DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin20Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin20Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin40Dgr.
-function Lin40Dgr_Callback(hObject, eventdata, handles)
+function Lin40Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin40Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Lin40DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -294,44 +221,19 @@ assignin('base','Lin40Dgr', handles.Lin40DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin40Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin40Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin60Dgr.
-function Lin60Dgr_Callback(hObject, eventdata, handles)
+function Lin60Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin60Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Lin60DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -343,44 +245,19 @@ assignin('base','Lin60Dgr', handles.Lin60DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin60Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin60Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin80Dgr.
-function Lin80Dgr_Callback(hObject, eventdata, handles)
+function Lin80Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin80Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Lin80DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -392,44 +269,19 @@ assignin('base','Lin80Dgr', handles.Lin80DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin80Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin80Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin100Dgr.
-function Lin100Dgr_Callback(hObject, eventdata, handles)
+function Lin100Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin100Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Lin100DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -441,45 +293,19 @@ assignin('base','Lin100Dgr', handles.Lin100DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin100Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin100Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin120Dgr.
-function Lin120Dgr_Callback(hObject, eventdata, handles)
+function Lin120Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin120Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Lin120DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -491,44 +317,19 @@ assignin('base','Lin120Dgr', handles.Lin120DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin120Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin120Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin140Dgr.
-function Lin140Dgr_Callback(hObject, eventdata, handles)
+function Lin140Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin140Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Lin140DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -540,45 +341,19 @@ assignin('base','Lin140Dgr', handles.Lin140DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin140Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin140Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin160Dgr.
-function Lin160Dgr_Callback(hObject, eventdata, handles)
+function Lin160Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin160Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Lin160DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -590,45 +365,19 @@ assignin('base','Lin160Dgr', handles.Lin160DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin160Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin160Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on button press in Lin180Dgr.
-function Lin180Dgr_Callback(hObject, eventdata, handles)
+function Lin180Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Lin180Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Lin180DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -640,45 +389,19 @@ assignin('base','Lin180Dgr', handles.Lin180DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowLin180Dgr = Datamaxrow(1,2);
-
-if DatamaxrowLin180Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir0Dgr.
-function Cir0Dgr_Callback(hObject, eventdata, handles)
+function Cir0Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir0Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Cir0DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -690,45 +413,19 @@ assignin('base','Cir0Dgr', handles.Cir0DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir0Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir0Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir20Dgr.
-function Cir20Dgr_Callback(hObject, eventdata, handles)
+function Cir20Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir20Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir20DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -740,44 +437,19 @@ assignin('base','Cir20Dgr', handles.Cir20DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir20Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir20Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir40Dgr.
-function Cir40Dgr_Callback(hObject, eventdata, handles)
+function Cir40Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir40Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir40DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -789,44 +461,19 @@ assignin('base','Cir40Dgr', handles.Cir40DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir40Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir40Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir60Dgr.
-function Cir60Dgr_Callback(hObject, eventdata, handles)
+function Cir60Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir60Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir60DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -838,44 +485,19 @@ assignin('base','Cir60Dgr', handles.Cir60DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir60Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir60Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir80Dgr.
-function Cir80Dgr_Callback(hObject, eventdata, handles)
+function Cir80Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir80Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir80DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -887,42 +509,18 @@ assignin('base','Cir80Dgr', handles.Cir80DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir80Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir80Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir100Dgr.
-function Cir100Dgr_Callback(hObject, eventdata, handles)
+function Cir100Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir100Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir100DgrPic = AverageData;
 
 
@@ -936,44 +534,19 @@ assignin('base','Cir100Dgr', handles.Cir100DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir100Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir100Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir120Dgr.
-function Cir120Dgr_Callback(hObject, eventdata, handles)
+function Cir120Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir120Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir120DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -985,45 +558,19 @@ assignin('base','Cir120Dgr', handles.Cir120DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir120Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir120Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir140Dgr.
-function Cir140Dgr_Callback(hObject, eventdata, handles)
+function Cir140Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir140Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-
-%subtract noise
+%make variable in handles structure
 handles.Cir140DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1035,44 +582,19 @@ assignin('base','Cir140Dgr', handles.Cir140DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir140Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir140Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir160Dgr.
-function Cir160Dgr_Callback(hObject, eventdata, handles)
+function Cir160Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir160Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir160DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1084,44 +606,19 @@ assignin('base','Cir160Dgr', handles.Cir160DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir160Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir160Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in Cir180Dgr.
-function Cir180Dgr_Callback(hObject, eventdata, handles)
+function Cir180Dgr_Callback(hObject, ~, handles)
 % hObject    handle to Cir180Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
-
-%subtract noise
+%make variable in handles structure
 handles.Cir180DgrPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1133,46 +630,19 @@ assignin('base','Cir180Dgr', handles.Cir180DgrPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(AverageData);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCir180Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCir180Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on button press in Black.
-function Black_Callback(hObject, eventdata, handles)
+function Black_Callback(hObject, ~, handles)
 % hObject    handle to Black (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-%jj sets # of pictures to take
-jj = 10;
-
-
-for ii = 1:jj
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-
-
-for ii = 1:jj
-    if ii <= 1 
-        Data1 = 0;
-    end
-    Data1 = sum(Data(:,:,2,ii)) + Data1;
-end
-
-AverageData = sum(Data1/jj);
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.BlackPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1184,44 +654,19 @@ assignin('base','Black', handles.BlackPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowBlack = Datamaxrow(1,2);
-
-if DatamaxrowBlack == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 % --- Executes on button press in NoPolarizer.
-function NoPolarizer_Callback(hObject, eventdata, handles)
+function NoPolarizer_Callback(hObject, ~, handles)
 % hObject    handle to NoPolarizer (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Take 5 pictures and average to make one
-for ii = 1:5
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-SumData1 = sum(Data(:,:,2,1));
-SumData2 = sum(Data(:,:,2,2));
-SumData3 = sum(Data(:,:,2,3));
-SumData4 = sum(Data(:,:,2,4));
-SumData5 = sum(Data(:,:,2,5));
-
-AvgSumData1 = sum(SumData1);
-AvgSumData2 = sum(SumData2);
-AvgSumData3 = sum(SumData3);
-AvgSumData4 = sum(SumData4);
-AvgSumData5 = sum(SumData5);
-
-AverageData = (AvgSumData2 + AvgSumData3 + AvgSumData4 + AvgSumData5 + AvgSumData1)/5;
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.NoPolarizerPic = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1233,20 +678,10 @@ assignin('base','NoPolarizer', handles.NoPolarizerPic)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowNoPolarizer = Datamaxrow(1,2);
-
-if DatamaxrowNoPolarizer == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on slider movement.
-function PicWidthLtoR_Callback(hObject, eventdata, handles)
+function PicWidthLtoR_Callback(hObject, ~, handles)
 % hObject    handle to PicWidthLtoR (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1255,13 +690,13 @@ function PicWidthLtoR_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 %get the position of the Right slider
-handles.Left = get(hObject,'Value');
-assignin(base,'Left',handles.Left);
+handles.Left = get(handles.PicWidthLtoR,'Value');
+assignin('base','Left',handles.Left);
 
 % Update handles structure
 guidata(hObject, handles);
 % --- Executes during object creation, after setting all properties.
-function PicWidthLtoR_CreateFcn(hObject, eventdata, handles)
+function PicWidthLtoR_CreateFcn(hObject, ~, ~)
 % hObject    handle to PicWidthLtoR (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1273,7 +708,7 @@ end
 
 
 % --- Executes on slider movement.
-function PicWidthRtoL_Callback(hObject, eventdata, handles)
+function PicWidthRtoL_Callback(hObject, ~, handles)
 % hObject    handle to PicWidthRtoL (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1282,14 +717,14 @@ function PicWidthRtoL_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 %get the position of the Right slider
-handles.Right = get(hObject,'Value');
-assignin(base,'Right',handles.Right);
+handles.Right = get(handles.PicWidthRtoL,'Value');
+assignin('base','Right',handles.Right);
 
 % Update handles structure
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function PicWidthRtoL_CreateFcn(hObject, eventdata, handles)
+function PicWidthRtoL_CreateFcn(hObject, ~, ~)
 % hObject    handle to PicWidthRtoL (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1301,7 +736,7 @@ end
 
 
 % --- Executes on slider movement.
-function PicHieghtTtoB_Callback(hObject, eventdata, handles)
+function PicHieghtTtoB_Callback(hObject, ~, handles)
 % hObject    handle to PicHieghtTtoB (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1310,15 +745,15 @@ function PicHieghtTtoB_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 %get the position of the top slider
-handles.Top = get(hObject,'Value');
-assignin(base,'Top',handles.Top);
+handles.Top = get(handles.PicHieghtTtoB,'Value');
+assignin('base','Top',handles.Top);
 
 % Update handles structure
 guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function PicHieghtTtoB_CreateFcn(hObject, eventdata, handles)
+function PicHieghtTtoB_CreateFcn(hObject, ~, ~)
 % hObject    handle to PicHieghtTtoB (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1330,7 +765,7 @@ end
 
 
 % --- Executes on slider movement.
-function PicHieghtBtoT_Callback(hObject, eventdata, handles)
+function PicHieghtBtoT_Callback(hObject, ~, handles)
 % hObject    handle to PicHieghtBtoT (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1339,14 +774,14 @@ function PicHieghtBtoT_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 %get the position of the bottom slider
-handles.Bottom = get(hObject,'Value');
-assignin(base,'Bottom',handles.Bottom);
+handles.Bottom = get(handles.PicHieghtBtoT,'Value');
+assignin('base','Bottom',handles.Bottom);
 
 % Update handles structure
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function PicHieghtBtoT_CreateFcn(hObject, eventdata, handles)
+function PicHieghtBtoT_CreateFcn(hObject, ~, ~)
 % hObject    handle to PicHieghtBtoT (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1358,32 +793,16 @@ end
 
 
 % --- Executes on button press in CP1Cir0Dgr.
-function CP1Cir0Dgr_Callback(hObject, eventdata, handles)
+function CP1Cir0Dgr_Callback(hObject, ~, handles)
 % hObject    handle to CP1Cir0Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%Take 5 pictures and average to make one
 
-%jj sets # of pictures to take
-jj = 10;
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
-
-for ii = 1:jj
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-
-
-for ii = 1:jj
-    if ii <= 1 
-        Data1 = 0;
-    end
-    Data1 = sum(Data(:,:,2,ii)) + Data1;
-end
-
-AverageData = sum(Data1/jj);
 %subtract noise
 handles.CP1Cir0Dgr = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1395,45 +814,20 @@ assignin('base','CP1Cir0Dgr', handles.CP1Cir0Dgr)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCP1Cir0Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCP1Cir0Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on button press in CP1Lin0Dgr.
-function CP1Lin0Dgr_Callback(hObject, eventdata, handles)
+function CP1Lin0Dgr_Callback(hObject, ~, handles)
 % hObject    handle to CP1Lin0Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 %Take 5 pictures and average to make one
-%jj sets # of pictures to take
-jj = 10;
 
-
-for ii = 1:jj
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-
-
-for ii = 1:jj
-    if ii <= 1 
-        Data1 = 0;
-    end
-    Data1 = sum(Data(:,:,2,ii)) + Data1;
-end
-
-AverageData = sum(Data1/jj);
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin0Dgr = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1445,45 +839,21 @@ assignin('base','CP1Lin0Dgr', handles.CP1Lin0Dgr)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCP1Lin0Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCP1Lin0Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
-
+MMIWarning(AverageData);
 
 % --- Executes on button press in CP1Lin45Dgr.
-function CP1Lin45Dgr_Callback(hObject, eventdata, handles)
+function CP1Lin45Dgr_Callback(hObject, ~, handles)
 % hObject    handle to CP1Lin45Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 %Take 5 pictures and average to make one
 %jj sets # of pictures to take
-jj = 10;
 
-
-for ii = 1:jj
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-
-
-for ii = 1:jj
-    if ii <= 1 
-        Data1 = 0;
-    end
-    Data1 = sum(Data(:,:,2,ii)) + Data1;
-end
-
-AverageData = sum(Data1/jj);
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin45Dgr = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1495,45 +865,20 @@ assignin('base','CP1Lin45Dgr', handles.CP1Lin45Dgr)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
-
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCP1Lin45Dgr = Datamaxrow(1,2);
-
-if DatamaxrowCP1Lin45Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
+MMIWarning(AverageData);
 
 
 % --- Executes on button press in CP1Lin90Dgr.
-function CP1Lin90Dgr_Callback(hObject, eventdata, handles)
+function CP1Lin90Dgr_Callback(hObject, ~, handles)
 % hObject    handle to CP1Lin90Dgr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%Take 5 pictures and average to make one
-%jj sets # of pictures to take
-jj = 10;
 
-
-for ii = 1:jj
-Data(:,:,:,ii) = TakePicture(handles.ExposureTime);
-end
-
-
-for ii = 1:jj
-    if ii <= 1 
-        Data1 = 0;
-    end
-    Data1 = sum(Data(:,:,2,ii)) + Data1;
-end
-
-AverageData = sum(Data1/jj);
+%get the average of the set number of pictures
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin90Dgr = AverageData;
-
 
 % Update handles structure
 guidata(hObject, handles);
@@ -1545,20 +890,13 @@ assignin('base','CP1Lin90Dgr', handles.CP1Lin90Dgr)
 warndlg('Capture Finished')
 
 %Tell user that the picture is saturated
+MMIWarning(AverageData);
 
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-DatamaxrowCP1Lin90Dgr = Datamaxrow(1,2);
 
-if DatamaxrowCP1Lin90Dgr == 255 
-   WarningString = ['Picture is satruated.You should always start with a picture saturation of about 200'... 
-       'with your first picture. You must start over and retake all pictures because the MMI analysis will be affected.'];
-    warndlg(WarningString)
-end
 
 
 % --- Executes on button press in StokesVector.
-function StokesVector_Callback(hObject, eventdata, handles)
+function StokesVector_Callback(hObject, ~, handles)
 % hObject    handle to StokesVector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1571,13 +909,13 @@ Black = handles.Black;
 
  %JustGeneratorPolarization(CP1Cir0Dgr,CP1Lin0Dgr,CP1Lin45Dgr,CP1Lin90Dgr,Black)
 
-CP1Cir0DgrmBl = CP1Cir0Dgr;
-CP1Lin0DgrmBl = CP1Lin0Dgr;
-CP1Lin45DgrmBl = CP1Lin45Dgr;
-CP1Lin90DgrmBl = CP1Lin90Dgr;
+CP1Cir0DgrMinusBl = CP1Cir0Dgr - Black;
+CP1Lin0DgrMinusBl = CP1Lin0Dgr - Black;
+CP1Lin45DgrMinusBl = CP1Lin45Dgr - Black;
+CP1Lin90DgrMinusBl = CP1Lin90Dgr - Black;
 
 %Here is the total Intensity Matrix
-TotalIntensityMatrix = [CP1Cir0DgrmBl;CP1Lin0DgrmBl;CP1Lin45DgrmBl;CP1Lin90DgrmBl];
+TotalIntensityMatrix = [CP1Cir0DgrMinusBl;CP1Lin0DgrMinusBl;CP1Lin45DgrMinusBl;CP1Lin90DgrMinusBl];
 
 %Mueller Matrix of CP1
 MMCP1Cir0Dgr = [0.392439, 0, 0.386982, 0];
@@ -1606,3 +944,45 @@ guidata(hObject, handles);
 assignin('base','GeneratorPolarization', handles.GeneratorPolarization)
 %d = GeneratorPolarization(:,1);
 %set(handles.uitableStokesVector,'data',d);
+
+function ExposureTime_Callback(~, ~, ~)
+% hObject    handle to ExposureTime (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ExposureTime as text
+%        str2double(get(hObject,'String')) returns contents of ExposureTime as a double
+
+
+
+% --- Executes during object creation, after setting all properties.
+function ExposureTime_CreateFcn(hObject, ~, ~)
+% hObject    handle to ExposureTime (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in Update.
+function Update_Callback(hObject, ~, handles)
+% hObject    handle to Update (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%get the value of the Exposure Time
+handles.ExposureTimeSet = str2double(get(handles.ExposureTime,'String')); 
+
+%get the value of the Number of Pictures
+handles.NumberOfPicturesSet = str2double(get(handles.NumberOfPictures,'String'));
+
+% Update handles structure
+guidata(hObject, handles);
+
+%Put data in the workspace
+assignin('base','ExposureTime', handles.ExposureTimeSet)
+assignin('base','NumberOfPictures', handles.NumberOfPicturesSet)
