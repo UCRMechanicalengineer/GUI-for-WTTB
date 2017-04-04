@@ -29,7 +29,7 @@ cam.Acquisition.Freeze(uc480.Defines.DeviceParameter.Wait);
 Data = reshape(uint8(tmp), [Bits/8, Width, Height]);
 Data = Data(1:3, 1:Width, 1:Height);
 Data = permute(Data, [3,2,1]);
-Data = Data(Left:Right,Top:Bottom,:);
-Data = Data(:,:,2);
+Data = Data(Top:Bottom,Left:Right,2);
+%Data = Data(:,:,2);
 cam.Exit;
 

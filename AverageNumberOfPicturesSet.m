@@ -2,10 +2,11 @@
 %handles.NumberOfPicturesSet taken from the workspace
 
 function [AverageData] = AverageNumberOfPicturesSet(NumberOfPicturesSet,ExposureTime,Top,Bottom,Left,Right)
-
-Data = zeros(Top:Bottom,Left:Right,1,NumberOfPicturesSet); 
+TopToBottom = Bottom - Top;
+LeftToRight = Right - Left;
+Data = zeros(TopToBottom,LeftToRight,NumberOfPicturesSet); 
 for ii = 1:NumberOfPicturesSet
-Data(:,:,:,ii) = TakePicture(ExposureTime);
+Data(:,:,:,ii) = TakePicture(ExposureTime,Left,Right,Top,Bottom);
 end
 
 for ii = 1:handles.NumberOfPicturesSet
