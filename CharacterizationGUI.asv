@@ -939,10 +939,6 @@ CP1Lin0DgrMinusBlSumRow = sum(CP1Lin0DgrMinusBlSumCol);
 CP1Lin45DgrMinusBlSumCol = sum(CP1Lin45DgrMinusBl);
 CP1Lin45DgrMinusBlSumRow = sum(CP1Lin45DgrMinusBlSumCol);
 
-CP1Lin90DgrMinusBlSumCol = sum(CP1Lin90DgrMinusBl);
-CP1Lin90DgrMinusBlSumRow = sum(CP1Lin90DgrMinusBlSumCol);
-
-
 
 assignin('base','CP1Cir0DgrMinusBl',CP1Cir0DgrMinusBl)
 assignin('base','CP1Lin0DgrMinusBl',CP1Lin0DgrMinusBl)
@@ -950,7 +946,7 @@ assignin('base','CP1Lin45DgrMinusBl',CP1Lin45DgrMinusBl)
 assignin('base','CP1Lin90DgrMinusBl',CP1Lin90DgrMinusBl)
 
 %Here is the total Intensity Matrix
-TotalIntensityMatrix = [CP1Cir0DgrMinusBlSumRow;CP1Lin0DgrMinusBlSumRow;CP1Lin45DgrMinusBlSumRow;CP1Lin90DgrMinusBlSumRow];
+TotalIntensityMatrix = [CP1Cir0DgrMinusBlSumRow;CP1Lin0DgrMinusBlSumRow;CP1Lin45DgrMinusBl;CP1Lin90DgrMinusBl];
 
 %Mueller Matrix of CP1
 MMCP1Cir0Dgr = [0.392439, 0, 0.386982, 0];

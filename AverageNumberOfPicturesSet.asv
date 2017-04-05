@@ -4,7 +4,7 @@
 function [AverageData] = AverageNumberOfPicturesSet(NumberOfPicturesSet,ExposureTime,Top,Bottom,Left,Right)
 TopToBottom = (Bottom - Top)+1;
 LeftToRight = (Right - Left)+1;
- 
+%Data = zeros(TopToBottom,LeftToRight,NumberOfPicturesSet); 
 for ii = 1:NumberOfPicturesSet
     if ii <= 1
         Data1 = zeros(TopToBottom,LeftToRight);
