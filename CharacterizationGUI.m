@@ -147,6 +147,11 @@ Data = TakePicture(ExposureTimeSet,Left,Right,Top,Bottom);
 
 %make histogram of saturation
 histogram(Data);
+Datamaxcol = max(Data);
+Datamaxrow = max(Datamaxcol);
+Datamaxrowgrn = Datamaxrow;
+xlabel('Pixel Values for Green Channel');
+title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
 
 %warn user of picture saturation
 MMIWarning(Data);
