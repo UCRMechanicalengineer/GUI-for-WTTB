@@ -62,9 +62,9 @@ handles.ExposureTimeSet = str2double(get(handles.ExposureTime,'String'));
 handles.NumberOfPicturesSet = str2double(get(handles.NumberOfPictures,'String'));
 
 %set all picture dimensions and sliders
-handles.Top = 0;
+handles.Top = 1;
 handles.Bottom = 1024;
-handles.Left = 0;
+handles.Left = 1;
 handles.Right = 1280;
 
 %Set the sliders for the pictures
@@ -77,9 +77,19 @@ set(handles.PicHieghtBtoT,'SliderStep', [1/1024,10/1024]);
 set(handles.PicWidthLtoR,'SliderStep', [1/1280,10/1280]);
 set(handles.PicWidthRtoL,'SliderStep', [1/1280,10/1280]);
 
+%Turn slider Ui Variables into integers
+handles.TopSet = get(handles.PicHieghtTtoB,'Value')+1;
+handles.BottomSet = get(handles.PicHieghtBtoT,'Value');
+handles.RightSet = get(handles.PicWidthRtoL,'Value');
+handles.LeftSet = get(handles.PicWidthLtoR,'Value')+1;
+
 %Put data in the workspace
 assignin('base','ExposureTime', handles.ExposureTimeSet)
 assignin('base','NumberOfPictures',handles.NumberOfPicturesSet);
+assignin('base','Top',handles.TopSet);
+assignin('base','Bottom',handles.BottomSet);
+assignin('base','Left',handles.LeftSet);
+assignin('base','Right',handles.RightSet);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -131,27 +141,34 @@ function pbPreview_Callback(~, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and show it in axes 1
-Data = TakePicture(handles.ExposureTime);
+Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
 % Display Image
-imshow(Data(:,:,:));
+imshow(Data(:,:));
 
 
 % --- Executes on button press in pbSaturation.
-function pbSaturation_Callback(~, ~, ~)
+function pbSaturation_Callback(~, ~, handles)
 % hObject    handle to pbSaturation (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 %Take a picture and add it for analysis
-Data = TakePicture(ExposureTimeSet,Left,Right,Top,Bottom);
+Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
 
 %make histogram of saturation
 histogram(Data);
+<<<<<<< HEAD
 Datamaxcol = max(Data);
 Datamaxrow = max(Datamaxcol);
 Datamaxrowgrn = Datamaxrow;
 xlabel('Pixel Values for Green Channel');
 title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
+=======
+DataMaxRow = max(Data);
+DataMaxCol = max(DataMaxRow);
+xlabel('Pixel Values for Green Channel');
+title(['          Max Value is ', num2str(DataMaxCol) ,'']);
+>>>>>>> 2f6411e8accff54c6d9fe8bd96826a8890d8c6ae
 
 %warn user of picture saturation
 MMIWarning(Data);
@@ -163,7 +180,7 @@ function Lin0Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin0DgrPic = AverageData;
@@ -187,7 +204,7 @@ function Lin20Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin20DgrPic = AverageData;
@@ -211,7 +228,7 @@ function Lin40Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin40DgrPic = AverageData;
@@ -235,7 +252,7 @@ function Lin60Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin60DgrPic = AverageData;
@@ -259,7 +276,7 @@ function Lin80Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin80DgrPic = AverageData;
@@ -283,7 +300,7 @@ function Lin100Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin100DgrPic = AverageData;
@@ -307,7 +324,7 @@ function Lin120Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin120DgrPic = AverageData;
@@ -331,7 +348,7 @@ function Lin140Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin140DgrPic = AverageData;
@@ -355,7 +372,7 @@ function Lin160Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin160DgrPic = AverageData;
@@ -379,7 +396,7 @@ function Lin180Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Lin180DgrPic = AverageData;
@@ -403,7 +420,7 @@ function Cir0Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir0DgrPic = AverageData;
@@ -427,7 +444,7 @@ function Cir20Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir20DgrPic = AverageData;
@@ -451,7 +468,7 @@ function Cir40Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir40DgrPic = AverageData;
@@ -475,7 +492,7 @@ function Cir60Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir60DgrPic = AverageData;
@@ -499,7 +516,7 @@ function Cir80Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir80DgrPic = AverageData;
@@ -523,7 +540,7 @@ function Cir100Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir100DgrPic = AverageData;
@@ -548,7 +565,7 @@ function Cir120Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir120DgrPic = AverageData;
@@ -572,7 +589,7 @@ function Cir140Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir140DgrPic = AverageData;
@@ -596,7 +613,7 @@ function Cir160Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir160DgrPic = AverageData;
@@ -620,7 +637,7 @@ function Cir180Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %make variable in handles structure
 handles.Cir180DgrPic = AverageData;
@@ -644,7 +661,7 @@ function Black_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.BlackPic = AverageData;
@@ -668,7 +685,7 @@ function NoPolarizer_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.NoPolarizerPic = AverageData;
@@ -804,7 +821,8 @@ function CP1Cir0Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,...
+    handles.TopSet,handles.BottomSet,handles.LeftSet,handles.RightSet);
 
 %subtract noise
 handles.CP1Cir0Dgr = AverageData;
@@ -829,7 +847,7 @@ function CP1Lin0Dgr_Callback(hObject, ~, handles)
 %Take 5 pictures and average to make one
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin0Dgr = AverageData;
@@ -855,7 +873,7 @@ function CP1Lin45Dgr_Callback(hObject, ~, handles)
 %jj sets # of pictures to take
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin45Dgr = AverageData;
@@ -880,7 +898,7 @@ function CP1Lin90Dgr_Callback(hObject, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %get the average of the set number of pictures
-AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTime,handles.Top,handles.Bottom,handles.Left,handles.Right);
+AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Lin90Dgr = AverageData;
@@ -984,6 +1002,12 @@ handles.ExposureTimeSet = str2double(get(handles.ExposureTime,'String'));
 
 %get the value of the Number of Pictures
 handles.NumberOfPicturesSet = str2double(get(handles.NumberOfPictures,'String'));
+
+%Turn slider Ui Variables into integers
+handles.TopSet = get(handles.PicHieghtTtoB,'Value')+1;
+handles.BottomSet = get(handles.PicHieghtBtoT,'Value');
+handles.RightSet = get(handles.PicWidthRtoL,'Value');
+handles.LeftSet = get(handles.PicWidthLtoR,'Value')+1;
 
 % Update handles structure
 guidata(hObject, handles);
