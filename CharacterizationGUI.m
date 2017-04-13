@@ -142,6 +142,8 @@ function pbPreview_Callback(~, ~, handles)
 
 %Take a picture and show it in axes 1
 Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
+Data = uint8(Data);
+
 % Display Image
 imshow(Data(:,:));
 
@@ -815,7 +817,7 @@ function CP1Cir0Dgr_Callback(hObject, ~, handles)
 
 %get the average of the set number of pictures
 AverageData = AverageNumberOfPicturesSet(handles.NumberOfPicturesSet,handles.ExposureTimeSet,...
-    handles.TopSet,handles.BottomSet,handles.LeftSet,handles.RightSet);
+    handles.Top,handles.Bottom,handles.Left,handles.Right);
 
 %subtract noise
 handles.CP1Cir0Dgr = AverageData;
