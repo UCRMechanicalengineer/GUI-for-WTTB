@@ -46,7 +46,17 @@ LeftCir = QrtWvPlt*Mrot(deg2rad(-45))*Mlinp(1,0)*Mrot(deg2rad(45));
 
 %For a right circular polarizer where the linear polarizer of the
 %quarterwave plate is 45 degrees from the vertical access
-RightCir = QrtWvPlt*Mrot(deg2rad(-45))*Mlinp(0,1)*Mrot(deg2rad(45))
+RightCir = QrtWvPlt*Mrot(deg2rad(-45))*Mlinp(0,1)*Mrot(deg2rad(45));
+
+%For a flipped left circular polarizer
+FlipLeftCir = Mrot(deg2rad(-(180-45)))*Mlinp(1,0)*Mrot(deg2rad(180-45))*QrtWvPlt;
+
+%General linear polarizer rotated 45 degrees (x to y)
+MGpol45 = Mrot(deg2rad(-45))*Mlinp*Mrot(deg2rad(45));
+
+%General circular polarizer
+GCP = Mretx*MGpol45(px, py);
+
 
 
 
