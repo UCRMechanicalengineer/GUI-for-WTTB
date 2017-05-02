@@ -57,7 +57,25 @@ MGpol45 = Mrot(deg2rad(-45))*Mlinp*Mrot(deg2rad(45));
 %General circular polarizer
 GCP = Mretx*MGpol45(px, py);
 
+%General circular polarizer circular side rotated
+RCPCS = symfun(Mrot(-theta)*GCP*Mrot(theta), [theta, px, py, phi]);
 
+%A rotated circular polarizer circular side with some inputs
+RCPCS(0,1,0,pi/4);
+
+%So multiplying the first line of RCPCS with a vertical stokes vector gives
+TotalIntensityVert = RCPCS*[1;-1;0;0];
+
+%Making just a matrix not a function
+TotalIntensityVertNonFun = TotalIntensityVert(theta, px, py, phi);
+
+%Getting just the top row
+TotalIntensityVertTop = symfun(TotalIntensityVertNonFun(1,1), [theta, px, py])
+
+%getting the array to plot 
+TotalIntensityVertTopArray = TotalIntensityVertTop(deg2rad(0:180),.95,.5)
+
+plot(0:180,TotalIntensityVertTopArray)
 
 
 
