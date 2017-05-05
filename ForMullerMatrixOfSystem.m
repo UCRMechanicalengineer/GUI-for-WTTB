@@ -123,26 +123,66 @@ LinearIntensitys = [Lin0Dgr,Lin20Dgr,Lin40Dgr,Lin60Dgr,Lin80Dgr,Lin100Dgr,Lin120
 
 %plot the circular intensitys
 subplot(2,2,3);
-plot(Degrees, CircularIntensitys);
+plot(Degrees, (CircularIntensitys-Black)/NoPolarizer,':w','Marker','d','MarkerFaceColor','g');
 str3 = {'Circular', 'Intensitys'};
 title(str3);
 xlabel('Degrees');
 ylabel('Intensity');
-
+hold on
 
 %plot the linear intensitys
 subplot(2,2,4);
-plot(Degrees, LinearIntensitys);
+plot(Degrees, (LinearIntensitys-Black)/NoPolarizer,':dw','Marker','d','MarkerFaceColor','g');
 str4 = {'Linear', 'Intensitys'};
 title(str4);
 xlabel('Degrees');
 ylabel('Intensity');
+hold on
 
-%Creat character vector
+%Create anonymous function to find px and py
+modelfunpxpy =  @(p,x)sin(2*x)*(p(1)^2/2 - p(2)^2/2) + p(1)^2/2 + p(2)^2/2;
 
-TotalIntensityTopRowCircular = 'sin(2*x)*(px^2/2 - py^2/2) + px^2/2 + py^2/2';
 %Fit the functions to the Data
-x = [transpose(deg2rad(Degrees))];
-yn = transpose(CircularIntensitys);
-TIVT = fit(x,yn, TotalIntensityTopRowCircular) 
+x = deg2rad(Degrees);
+y = (CircularIntensitys-Black)/NoPolarizer;
 
+
+beta0 = [.9, .1];
+TIVT = fitnlm(x,y, modelfunpxpy, beta0);
+
+%output values
+p1 =TIVT.Coefficients{1,1};
+p2 =TIVT.Coefficients{2,1};
+
+%Create anonymous function to find phi
+modelfunphi = @(phi,x)p1^2/2 + p2^2/2 - sin(2*x)*cos(phi(1))*(p1^2/2 - p2^2/2);
+
+%Fit the functions to the Data
+x = deg2rad(Degrees);
+y = (LinearIntensitys-Black)/NoPolarizer;
+
+beta0 = [deg2rad(89)];
+TIVT2 = fitnlm(x,y, modelfunphi, beta0);
+phi1 = TIVT2.Coefficients{1,1};
+px1 = p1
+py1 = p2
+phi1 = rad2deg(phi1)
+
+%Plot the points for circular intensity
+Degrees2 = 0:1:180;
+x = deg2rad(Degrees2);
+subplot(2,2,3);
+plot(Degrees2,TotalIntensityVertTop(x,p1,p2))
+
+%Plot the points for linear intensity
+subplot(2,2,4);
+plot(Degrees2,TotalIntensityVertTopFlipped(x,p1,p2,deg2rad(phi1)))
+
+%Muller matrix for the Circular side
+MMCS = symfun(GCP, [px,py,phi]);
+MMCS = MMCS(p1,p2,phi1);
+MMCS = double(MMCS)
+%Muller matrix for the Linear side
+MMLS = symfun(GCPF, [px,py,phi]);
+MMLS = MMLS(p1,p2,phi1);
+MMLS = double(MMLS)
