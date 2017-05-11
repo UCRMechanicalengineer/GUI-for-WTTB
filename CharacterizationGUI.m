@@ -142,7 +142,7 @@ function pbPreview_Callback(~, ~, handles)
 
 %Take a picture and show it in axes 1
 Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
-Data = uint8(Data);
+Data = flipud(uint8(Data));
 
 % Display Image
 imshow(Data(:,:));
@@ -955,10 +955,10 @@ assignin('base','CP1Lin90DgrMinusBl',CP1Lin90DgrMinusBl)
 TotalIntensityMatrix = [CP1Cir0DgrMinusBlSumRow;CP1Lin0DgrMinusBlSumRow;CP1Lin45DgrMinusBlSumRow;CP1Lin90DgrMinusBlSumRow];
 
 %Mueller Matrix of CP1
-MMCP1Cir0Dgr = MMCSAllDegCS(1,1:4,1);
-MMCP1Lin0Dgr = MMCSAllDegLS(1,1:4,1);
-MMCP1Lin45Dgr = MMCSAllDegLS(1,1:4,46);
-MMCP1Lin90Dgr = MMCSAllDegLS(1,1:4,91);
+MMCP1Cir0Dgr = evalin('base', 'MMCSAllDegCS(1,1:4,1)');
+MMCP1Lin0Dgr = evalin('base','MMCSAllDegLS(1,1:4,1)');
+MMCP1Lin45Dgr = evalin('base','MMCSAllDegLS(1,1:4,46)');
+MMCP1Lin90Dgr = evalin('base','MMCSAllDegLS(1,1:4,91)');
 
 %Here is the matrix for the inverse multiplication
 CP1Matrix = [MMCP1Cir0Dgr;MMCP1Lin0Dgr;MMCP1Lin45Dgr;MMCP1Lin90Dgr];

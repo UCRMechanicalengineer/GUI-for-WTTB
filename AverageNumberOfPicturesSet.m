@@ -15,7 +15,7 @@ end
 
 assignin('base','Data1',Data1);
 
-AverageData = Data1/NumberOfPicturesSet;
+AverageData = flipud(Data1/NumberOfPicturesSet);
 end
 
 %AverageData = sum(Data1)/NumberOfPicturesSet;
