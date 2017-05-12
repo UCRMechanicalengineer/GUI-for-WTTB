@@ -188,7 +188,7 @@ plot(Degrees2,TotalIntensityVertTopFlipped(x,p1,p2,deg2rad(phi1)))
 %MMLS = double(MMLS)
 
 %Muller matrix for the Circular side
-MMCS = RCPCS(deg2rad(0:359), p1, p2, phi1);
+MMCS = RCPCS(deg2rad(0:359), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegCS = zeros(4,4,360);
@@ -202,7 +202,7 @@ for ii=1:4
 end
 
 %Muller matrix for the Linear side
-MMCS = RGCPF(deg2rad(0:359), p1, p2, phi1);
+MMCS = RGCPF(deg2rad(0:359), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegLS = zeros(4,4,360);
