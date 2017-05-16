@@ -968,7 +968,7 @@ CP1Matrix = [MMCP1Cir0Dgr;MMCP1Lin0Dgr;MMCP1Lin45Dgr;MMCP1Lin90Dgr];
 S = linsolve(CP1Matrix,TotalIntensityMatrix);
 
 %normalizing the stokes vector
-GeneratorPolarization = S/S(1,1);
+GeneratorPolarization = S/S(1,1)
 
 %subtract noise
 handles.GeneratorPolarization = GeneratorPolarization;

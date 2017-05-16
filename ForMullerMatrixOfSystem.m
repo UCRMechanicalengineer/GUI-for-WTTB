@@ -139,11 +139,14 @@ xlabel('Degrees');
 ylabel('Intensity');
 hold on
 
+%define the phase shift
+alpha = 5;
+
 %Create anonymous function to find px and py
 modelfunpxpy =  @(p,x)sin(2*x)*(p(1)^2/2 - p(2)^2/2) + p(1)^2/2 + p(2)^2/2;
 
 %Fit the functions to the Data
-x = deg2rad(Degrees);
+x = deg2rad(Degrees+alpha);
 y = (CircularIntensitys-Black)/NoPolarizer;
 
 
@@ -158,7 +161,7 @@ p2 =TIVT.Coefficients{2,1};
 modelfunphi = @(phi,x)p1^2/2 + p2^2/2 - sin(2*x)*cos(phi(1))*(p1^2/2 - p2^2/2);
 
 %Fit the functions to the Data
-x = deg2rad(Degrees);
+x = deg2rad(Degrees+alpha);
 y = (LinearIntensitys-Black)/NoPolarizer;
 
 beta0 = [deg2rad(89)];
@@ -168,9 +171,10 @@ px1 = p1
 py1 = p2
 phi1 = rad2deg(phi1)
 
+
 %Plot the points for circular intensity
-Degrees2 = 0:1:180;
-x = deg2rad(Degrees2);
+Degrees2 = 0:1:179;
+x = deg2rad(Degrees2+alpha);
 subplot(2,2,3);
 plot(Degrees2,TotalIntensityVertTop(x,p1,p2))
 
@@ -188,7 +192,7 @@ plot(Degrees2,TotalIntensityVertTopFlipped(x,p1,p2,deg2rad(phi1)))
 %MMLS = double(MMLS)
 
 %Muller matrix for the Circular side
-MMCS = RCPCS(deg2rad(0:359), p1, p2, deg2rad(phi1));
+MMCS = RCPCS(deg2rad((0+alpha:359+alpha)), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegCS = zeros(4,4,360);
@@ -202,7 +206,7 @@ for ii=1:4
 end
 
 %Muller matrix for the Linear side
-MMCS = RGCPF(deg2rad(0:359), p1, p2, deg2rad(phi1));
+MMCS = RGCPF(deg2rad((0+alpha:359+alpha)), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegLS = zeros(4,4,360);
