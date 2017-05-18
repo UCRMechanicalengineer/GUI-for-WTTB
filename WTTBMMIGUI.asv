@@ -22,7 +22,7 @@ function varargout = WTTBMMIGUI(varargin)
 
 % Edit the above text to modify the response to help WTTBMMIGUI
 
-% Last Modified by GUIDE v2.5 17-May-2017 07:33:07
+% Last Modified by GUIDE v2.5 17-May-2017 06:43:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,7 +55,7 @@ function WTTBMMIGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % UIWAIT makes WTTBMMIGUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
-% Choose default command line output for WTTBMMIGUI
+% Choose default command line output for CharacterizationGUI
 handles.output = hObject;
 
 %get the value of the Exposure Time
@@ -239,77 +239,3 @@ function PicHieghtBtoT_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
-
-% --- Executes when figure1 is resized.
-function figure1_SizeChangedFcn(hObject, eventdata, handles)
-% hObject    handle to figure1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in UpdateAll.
-function UpdateAll_Callback(hObject, eventdata, handles)
-% hObject    handle to UpdateAll (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%get the value of the Exposure Time
-handles.ExposureTimeSet = str2double(get(handles.ExposureTime,'String')); 
-
-%get the value of the Number of Pictures
-handles.NumberOfPicturesSet = str2double(get(handles.NumberOfPictures,'String'));
-
-%Turn slider Ui Variables into integers
-handles.TopSet = get(handles.PicHieghtTtoB,'Value')+1;
-handles.BottomSet = get(handles.PicHieghtBtoT,'Value');
-handles.RightSet = get(handles.PicWidthRtoL,'Value');
-handles.LeftSet = get(handles.PicWidthLtoR,'Value')+1;
-
-% Update handles structure
-guidata(hObject, handles);
-
-%Put data in the workspace
-assignin('base','ExposureTime', handles.ExposureTimeSet)
-assignin('base','NumberOfPictures', handles.NumberOfPicturesSet)
-
-
-% --- Executes on button press in PreviewVid.
-function PreviewVid_Callback(hObject, eventdata, handles)
-% hObject    handle to PreviewVid (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in Saturation.
-function Saturation_Callback(hObject, eventdata, handles)
-% hObject    handle to Saturation (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%Take a picture and add it for analysis
-Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
-
-%make histogram of saturation
-histogram(Data);
-Datamaxcol = max(Data);
-Datamaxrow = max(Datamaxcol);
-Datamaxrowgrn = Datamaxrow;
-xlabel('Pixel Values for Green Channel');
-title(['          Max Value is ', num2str(Datamaxrowgrn) ,'']);
-
-%warn user of picture saturation
-MMIWarning(Data);
-
-% --- Executes on button press in PreviewPic.
-function PreviewPic_Callback(hObject, eventdata, handles)
-% hObject    handle to PreviewPic (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%Take a picture and show it in axes 1
-Data = TakePicture(handles.ExposureTimeSet,handles.LeftSet,handles.RightSet,handles.TopSet,handles.BottomSet);
-Data = flipud(uint8(Data));
-
-% Display Image
-imshow(Data(:,:));

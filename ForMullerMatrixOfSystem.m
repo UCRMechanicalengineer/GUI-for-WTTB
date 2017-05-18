@@ -140,7 +140,7 @@ ylabel('Intensity');
 hold on
 
 %define the phase shift
-alpha = 5;
+alpha = 4;
 
 %Create anonymous function to find px and py
 modelfunpxpy =  @(p,x)sin(2*x)*(p(1)^2/2 - p(2)^2/2) + p(1)^2/2 + p(2)^2/2;
