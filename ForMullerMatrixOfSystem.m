@@ -140,7 +140,7 @@ ylabel('Intensity');
 hold on
 
 %define the phase shift
-alpha = 4;
+alpha = -11.5;
 
 %Create anonymous function to find px and py
 modelfunpxpy =  @(p,x)sin(2*x)*(p(1)^2/2 - p(2)^2/2) + p(1)^2/2 + p(2)^2/2;
@@ -164,7 +164,7 @@ modelfunphi = @(phi,x)p1^2/2 + p2^2/2 - sin(2*x)*cos(phi(1))*(p1^2/2 - p2^2/2);
 x = deg2rad(Degrees+alpha);
 y = (LinearIntensitys-Black)/NoPolarizer;
 
-beta0 = [deg2rad(89)];
+beta0 = [deg2rad(90)];
 TIVT2 = fitnlm(x,y, modelfunphi, beta0);
 phi1 = TIVT2.Coefficients{1,1};
 px1 = p1
