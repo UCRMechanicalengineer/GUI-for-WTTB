@@ -167,9 +167,9 @@ y = (LinearIntensitys-Black)/NoPolarizer;
 beta0 = deg2rad(90);
 TIVT2 = fitnlm(x,y, modelfunphi, beta0);
 phi1 = TIVT2.Coefficients{1,1};
-px1 = p1
-py1 = p2
-phi1 = rad2deg(phi1)
+px1 = p1;
+py1 = p2;
+phi1 = rad2deg(phi1);
 
 
 %Plot the points for circular intensity
@@ -193,7 +193,7 @@ plot(Degrees2,TotalIntensityVertTopFlipped(y,p1,p2,deg2rad(phi1)))
 %MMLS = double(MMLS)
 
 %Muller matrix for the Circular side
-MMCS = RCPCS(deg2rad((0-alpha:359-alpha)), p1, p2, deg2rad(phi1));
+MMCS = RCPCS(deg2rad((0+alpha:359+alpha)), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegCS = zeros(4,4,360);
