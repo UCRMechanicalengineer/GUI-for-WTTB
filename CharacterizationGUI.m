@@ -22,7 +22,7 @@ function varargout = CharacterizationGUI(varargin)
 
 % Edit the above text to modify the response to help CharacterizationGUI
 
-% Last Modified by GUIDE v2.5 31-Mar-2017 08:34:44
+% Last Modified by GUIDE v2.5 30-May-2017 09:57:29
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -1029,3 +1029,23 @@ guidata(hObject, handles);
 %Put data in the workspace
 assignin('base','ExposureTime', handles.ExposureTimeSet)
 assignin('base','NumberOfPictures', handles.NumberOfPicturesSet)
+
+
+% --- Executes on button press in pbVideoPreview.
+function pbVideoPreview_Callback(hObject, eventdata, handles)
+% hObject    handle to pbVideoPreview (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Add NET assembly
+% May need to change specific location of library
+NET.addAssembly('C:\Program Files\Thorlabs\Scientific Imaging\DCx Camera Support\Develop\DotNet\uc480DotNet.dll');
+% Create camera object handle
+cam = uc480.Camera;
+%Initiate the interface
+cam.Init(0)
+% Make a video object
+[camVideo] = cam.Video;
+% Show in the GUI
+preview(camVideo);
+

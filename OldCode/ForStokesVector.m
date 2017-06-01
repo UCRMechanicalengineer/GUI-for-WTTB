@@ -1,8 +1,8 @@
 %Subtract the black
-CP1Cir0DgrMinusBl = (CP1Cir0Dgr-Black);
-CP1Lin0DgrMinusBl = (CP1Lin0Dgr-Black);
-CP1Lin45DgrMinusBl = (CP1Lin45Dgr-Black);
-CP1Lin90DgrMinusBl = (CP1Lin90Dgr-Black);
+CP1Cir0DgrMinusBl = (CP1Cir0Dgr);
+CP1Lin0DgrMinusBl = (CP1Lin0Dgr);
+CP1Lin45DgrMinusBl = (CP1Lin45Dgr);
+CP1Lin90DgrMinusBl = (CP1Lin90Dgr);
 
 %Sum for the total intensity
 CP1Cir0DgrMinusBlSumCol = sum(CP1Cir0DgrMinusBl);
