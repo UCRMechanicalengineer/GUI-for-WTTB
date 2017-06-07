@@ -140,7 +140,7 @@ ylabel('Intensity');
 hold on
 
 %define the phase shift
-alpha = -3;
+alpha = -2;
 
 %Create anonymous function to find px and py
 modelfunpxpy =  @(p,x)sin(2*x)*(p(1)^2/2 - p(2)^2/2) + p(1)^2/2 + p(2)^2/2;
@@ -193,7 +193,7 @@ plot(Degrees2,TotalIntensityVertTopFlipped(y,p1,p2,deg2rad(phi1)))
 %MMLS = double(MMLS)
 
 %Muller matrix for the Circular side
-MMCS = RCPCS(deg2rad((0-alpha:359-alpha)), p1, p2, deg2rad(phi1));
+MMCS = RCPCS(deg2rad((0:359)), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegCS = zeros(4,4,360);
@@ -207,7 +207,7 @@ for ii=1:4
 end
 
 %Muller matrix for the Linear side
-MMCS = RGCPF(deg2rad((0+alpha:359+alpha)), p1, p2, deg2rad(phi1));
+MMCS = RGCPF(deg2rad((0:359)), p1, p2, deg2rad(phi1));
 
 %Get the information out of the cell and into an array size (4,4,360)
 MMCSAllDegLS = zeros(4,4,360);
